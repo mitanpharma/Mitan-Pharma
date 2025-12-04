@@ -104,7 +104,7 @@ export const loginController = asyncHandler(async (req, res) => {
   const options = {
     httpOnly: true,
     secure: true,
-    sameSite: "strict",
+    sameSite: "none",
   };
 
   const accessToken = doesUserExist.generateAccessToken();

@@ -7,7 +7,7 @@ const app = express();
 
 app.use(
   cors({
-    origin: "mitanpharma.vercel.app",
+    origin: "https://mitanpharma.vercel.app",
     credentials: true,
     methods: ["GET", "POST", "PATCH", "PUT", "DELETE"],
     allowedHeaders: ["Content-Type", "Authorization"],
