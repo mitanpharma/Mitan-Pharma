@@ -279,7 +279,7 @@ export default function Login() {
                 }`}
               >
                 <img
-                  src="/public/items/logo main.png"
+                  src="/items/logo main.png"
                   alt="Mitan Pharma Logo"
                   className="w-48 h-auto transform transition-transform duration-300 hover:scale-105"
                 />
