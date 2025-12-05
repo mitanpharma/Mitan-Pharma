@@ -222,7 +222,7 @@ export default function About() {
           <div className="text-center space-y-6 animate-fade-in-up">
             <div className="flex justify-center mb-6">
               <img
-                src="/public/items/logo main.png"
+                src="/items/logo main.png"
                 alt="Mitan Pharma Logo"
                 className="w-64 h-auto"
               />
