@@ -104,9 +104,7 @@ export default function Login() {
         // ✅ Navigate based on role
         if (userRole === "admin") {
           Navigate("/admin/dashboard");
-          toast.success(
-            `Hii Naveen! Welcome back to Mitan Pharma!`
-          );
+          toast.success(`Hii Naveen! Welcome back to Mitan Pharma!`);
         } else {
           Navigate("/home");
           toast.success("Login Successful! Welcome to Mitan Pharma!");
@@ -481,25 +479,6 @@ export default function Login() {
                       New to Mitan Pharma?
                     </span>
                   </div>
-                </div>
-
-                {/* Sign Up Link */}
-                <div
-                  className={`text-center transition-all duration-1000 delay-800 ${
-                    animated
-                      ? "opacity-100 translate-y-0"
-                      : "opacity-0 translate-y-5"
-                  }`}
-                >
-                  <p className="text-sm text-gray-600">
-                    Don't have an account?{" "}
-                    <span
-                      onClick={signupPage}
-                      className="text-blue-600 hover:text-blue-700 font-bold transition-colors duration-300 cursor-pointer"
-                    >
-                      Sign Up Here
-                    </span>
-                  </p>
                 </div>
               </div>
             </div>
