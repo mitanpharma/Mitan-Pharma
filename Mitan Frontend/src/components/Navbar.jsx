@@ -20,7 +20,7 @@ function Navbar() {
   // }, [location]);
 
   const navItems = [
-    { name: "Home", path: "/home" },
+    { name: "Home", path: "/" },
     { name: "About", path: "/about" },
     { name: "Services", path: "/services" },
     { name: "Team", path: "/team" },
