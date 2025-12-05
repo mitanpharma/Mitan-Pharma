@@ -99,94 +99,44 @@ function Navbar() {
             </div>
           </Link>
 
-          {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center space-x-1">
-            {navItems.map((item, index) => (
-              <Link
-                key={item.path}
-                to={item.path}
-                className={`relative px-4 py-2 text-sm font-medium transition-all duration-300 rounded-lg group ${
-                  isActive(item.path)
-                    ? "text-blue-600"
-                    : "text-gray-700 hover:text-blue-600"
-                }`}
-              >
-                {item.name}
-                <span
-                  className={`absolute bottom-1 left-4 right-4 h-0.5 bg-blue-600 transition-all duration-300 ${
-                    isActive(item.path)
-                      ? "opacity-100 scale-x-100"
-                      : "opacity-0 scale-x-0 group-hover:opacity-100 group-hover:scale-x-100"
-                  }`}
-                />
-              </Link>
-            ))}
-          </div>
-
-          {/* Contact Us Button - Desktop */}
-          <div className="hidden md:block">
-            <Link
-              to="/contact"
-              className="inline-flex items-center px-6 py-2.5 mr-1 bg-blue-600 text-white text-sm font-medium rounded-full shadow-lg hover:bg-blue-700 hover:shadow-xl transform hover:scale-105 transition-all duration-300"
-            >
-              Contact Us
-            </Link>
-            <Link
-              to="/login"
-              className="inline-flex items-center px-6 py-2.5 bg-red-600 text-white text-sm font-medium rounded-full shadow-lg hover:bg-red-700 hover:shadow-xl transform hover:scale-105 transition-all duration-300"
-            >
-              Admin Login
-            </Link>
-          </div>
-
-          {/* Mobile Menu Button */}
-          <button
-            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            className="md:hidden p-2 rounded-lg text-gray-700 hover:bg-blue-50 transition-colors duration-300"
+          {/* Mobile Menu */}
+          <div
+            className={`md:hidden transition-all duration-500 ease-in-out overflow-hidden ${
+              isMobileMenuOpen
+                ? "max-h-96 opacity-100 mt-4"
+                : "max-h-0 opacity-0"
+            }`}
           >
-            {isMobileMenuOpen ? (
-              <X className="w-6 h-6" />
-            ) : (
-              <Menu className="w-6 h-6" />
-            )}
-          </button>
-        </div>
-
-        {/* Mobile Menu */}
-        <div
-          className={`md:hidden transition-all duration-500 ease-in-out overflow-hidden ${
-            isMobileMenuOpen ? "max-h-96 opacity-100 mt-4" : "max-h-0 opacity-0"
-          }`}
-        >
-          <div className="py-4 space-y-2">
-            {navItems.map((item) => (
+            <div className="py-4 space-y-2 bg-white rounded-lg shadow-lg">
+              {navItems.map((item) => (
+                <Link
+                  key={item.path}
+                  to={item.path}
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className={`block px-4 py-3 text-sm font-medium rounded-lg transition-all duration-300 ${
+                    isActive(item.path)
+                      ? "bg-blue-50 text-blue-600"
+                      : "text-gray-700 hover:bg-blue-50 hover:text-blue-600"
+                  }`}
+                >
+                  {item.name}
+                </Link>
+              ))}
               <Link
-                key={item.path}
-                to={item.path}
+                to="/contact"
                 onClick={() => setIsMobileMenuOpen(false)}
-                className={`block px-4 py-2 text-sm font-medium rounded-lg transition-all duration-300 ${
-                  isActive(item.path)
-                    ? "bg-blue-50 text-blue-600"
-                    : "text-gray-700 hover:bg-blue-50 hover:text-blue-600"
-                }`}
+                className="block w-full px-4 py-2.5 mt-4 mx-auto bg-blue-600 text-white text-sm font-medium rounded-full text-center hover:bg-blue-700 transition-all duration-300"
               >
-                {item.name}
+                Contact Us
               </Link>
-            ))}
-            <Link
-              to="/contact"
-              onClick={() => setIsMobileMenuOpen(false)}
-              className="block w-full px-4 py-2.5 mt-4 bg-blue-600 text-white text-sm font-medium rounded-full text-center hover:bg-blue-700 transition-all duration-300"
-            >
-              Contact Us
-            </Link>
-            <Link
-              to="/login"
-              onClick={() => setIsMobileMenuOpen(false)}
-              className="block w-full px-4 py-2.5 mt-4 bg-red-600 text-white text-sm font-medium rounded-full text-center hover:bg-red-700 transition-all duration-300"
-            >
-              Admin Login
-            </Link>
+              <Link
+                to="/login"
+                onClick={() => setIsMobileMenuOpen(false)}
+                className="block w-full px-4 py-2.5 bg-red-600 text-white text-sm font-medium rounded-full text-center hover:bg-red-700 transition-all duration-300"
+              >
+                Admin Login
+              </Link>
+            </div>
           </div>
         </div>
       </div>
