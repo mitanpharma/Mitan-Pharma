@@ -246,7 +246,7 @@ function Home() {
             {/* Left Content */}
             <div ref={heroTextRef} className="order-1 lg:order-1">
               <div className="inline-block mb-4 overflow-hidden">
-                <span className="bg-linear-to-r from-pink-600 to-indigo-600 text-white text-sm font-semibold px-4 py-2 rounded-full shadow">
+                <span className=" bg-linear-to-r from-pink-600 to-indigo-600 text-white text-sm font-semibold px-4 py-2 rounded-full shadow">
                   Leading Pharmaceutical Consultancy
                 </span>
               </div>

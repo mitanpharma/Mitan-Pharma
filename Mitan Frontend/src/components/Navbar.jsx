@@ -15,9 +15,7 @@ function Navbar() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // useEffect(() => {
-  //   setIsMobileMenuOpen(false);
-  // }, [location]);
+ 
 
   const navItems = [
     { name: "Home", path: "/" },
@@ -30,9 +28,11 @@ function Navbar() {
   const isActive = (path) => location.pathname === path;
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 transition-all duration-500">
+    <nav
+      className="fixed top-0 left-0 right-0 z-50 transition-all duration-500"
+    >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center">
+        <div className="flex justify-between items-center h-20">
           {/* Logo Section */}
           <Link
             to="/"
@@ -59,18 +59,12 @@ function Navbar() {
                   opacity="0.9"
                 />
                 <ellipse cx="140" cy="100" rx="25" ry="20" fill="#3b82f6" />
-
-                {/* House in center */}
                 <rect x="85" y="85" width="30" height="30" fill="white" />
                 <polygon points="100,70 75,90 125,90" fill="white" />
-
-                {/* Windows */}
                 <rect x="90" y="92" width="8" height="8" fill="#2563eb" />
                 <rect x="102" y="92" width="8" height="8" fill="#2563eb" />
                 <rect x="90" y="102" width="8" height="8" fill="#2563eb" />
                 <rect x="102" y="102" width="8" height="8" fill="#2563eb" />
-
-                {/* Cross connections */}
                 <line
                   x1="85"
                   y1="100"
@@ -99,15 +93,64 @@ function Navbar() {
             </div>
           </Link>
 
-          {/* Mobile Menu */}
-          <div
-            className={`md:hidden transition-all duration-500 ease-in-out overflow-hidden ${
-              isMobileMenuOpen
-                ? "max-h-96 opacity-100 mt-4"
-                : "max-h-0 opacity-0"
-            }`}
+          {/* Desktop Navigation */}
+          <div className="hidden md:flex items-center space-x-1">
+            {navItems.map((item) => (
+              <Link
+                key={item.path}
+                to={item.path}
+                className={`relative px-4 py-2 text-sm font-medium transition-all duration-300 rounded-lg group ${
+                  isActive(item.path)
+                    ? "text-blue-600"
+                    : "text-gray-700 hover:text-blue-600"
+                }`}
+              >
+                {item.name}
+                <span
+                  className={`absolute bottom-1 left-4 right-4 h-0.5 bg-blue-600 transition-all duration-300 ${
+                    isActive(item.path)
+                      ? "opacity-100 scale-x-100"
+                      : "opacity-0 scale-x-0 group-hover:opacity-100 group-hover:scale-x-100"
+                  }`}
+                />
+              </Link>
+            ))}
+          </div>
+
+          {/* Contact Us Button - Desktop */}
+          <div className="hidden md:flex items-center space-x-2">
+            <Link
+              to="/contact"
+              className="inline-flex items-center px-6 py-2.5 bg-blue-600 text-white text-sm font-medium rounded-full shadow-lg hover:bg-blue-700 hover:shadow-xl transform hover:scale-105 transition-all duration-300"
+            >
+              Contact Us
+            </Link>
+            <Link
+              to="/login"
+              className="inline-flex items-center px-6 py-2.5 bg-red-600 text-white text-sm font-medium rounded-full shadow-lg hover:bg-red-700 hover:shadow-xl transform hover:scale-105 transition-all duration-300"
+            >
+              Admin Login
+            </Link>
+          </div>
+
+          {/* Mobile Menu Button */}
+          <button
+            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            className="md:hidden p-2 rounded-lg text-gray-700 hover:bg-blue-50 transition-colors duration-300"
+            aria-label="Toggle menu"
           >
-            <div className="py-4 space-y-2 bg-white rounded-lg shadow-lg">
+            {isMobileMenuOpen ? (
+              <X className="w-6 h-6" />
+            ) : (
+              <Menu className="w-6 h-6" />
+            )}
+          </button>
+        </div>
+
+        {/* Mobile Menu */}
+        {isMobileMenuOpen && (
+          <div className="md:hidden pb-4">
+            <div className="py-4 px-2 space-y-2 bg-white rounded-lg shadow-lg border border-gray-100">
               {navItems.map((item) => (
                 <Link
                   key={item.path}
@@ -122,23 +165,25 @@ function Navbar() {
                   {item.name}
                 </Link>
               ))}
-              <Link
-                to="/contact"
-                onClick={() => setIsMobileMenuOpen(false)}
-                className="block w-full px-4 py-2.5 mt-4 mx-auto bg-blue-600 text-white text-sm font-medium rounded-full text-center hover:bg-blue-700 transition-all duration-300"
-              >
-                Contact Us
-              </Link>
-              <Link
-                to="/login"
-                onClick={() => setIsMobileMenuOpen(false)}
-                className="block w-full px-4 py-2.5 bg-red-600 text-white text-sm font-medium rounded-full text-center hover:bg-red-700 transition-all duration-300"
-              >
-                Admin Login
-              </Link>
+              <div className="pt-2 space-y-2">
+                <Link
+                  to="/contact"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className="block w-full px-4 py-2.5 bg-blue-600 text-white text-sm font-medium rounded-full text-center hover:bg-blue-700 transition-all duration-300 shadow-md"
+                >
+                  Contact Us
+                </Link>
+                <Link
+                  to="/login"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className="block w-full px-4 py-2.5 bg-red-600 text-white text-sm font-medium rounded-full text-center hover:bg-red-700 transition-all duration-300 shadow-md"
+                >
+                  Admin Login
+                </Link>
+              </div>
             </div>
           </div>
-        </div>
+        )}
       </div>
     </nav>
   );
