@@ -182,7 +182,7 @@ function Footer() {
               <li>
                 <div className="flex items-start space-x-3 text-gray-400">
                   <MapPin className="w-5 h-5 mt-0.5 shrink-0" />
-                  <span>New Ext. Colony, Meerut</span>
+                  <span>New Ext. Colony, Palwal</span>
                 </div>
               </li>
             </ul>
