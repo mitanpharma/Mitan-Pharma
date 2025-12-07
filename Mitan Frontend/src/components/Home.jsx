@@ -103,13 +103,6 @@ function Home() {
       color: "from-blue-500 to-blue-600",
     },
     {
-      icon: FlaskConical,
-      title: "BA/BE Studies",
-      description:
-        "Paper BE, Generated BE, Bio-analytical Validation, Report and Protocol along with ANOVA calculation.",
-      color: "from-indigo-500 to-indigo-600",
-    },
-    {
       icon: FileCheck,
       title: "Dossier Compilation",
       description:

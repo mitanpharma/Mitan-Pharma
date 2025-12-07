@@ -1,4 +1,3 @@
-// ==================== FILE: ServicesPage.jsx ====================
 import React, { useRef } from "react";
 import { Link } from "react-router-dom";
 import {
@@ -39,21 +38,6 @@ function Service() {
       color: "from-blue-500 to-blue-600",
       image:
         "https://images.unsplash.com/photo-1450101499163-c8848c66ca85?w=800&auto=format&fit=crop",
-    },
-    {
-      icon: FlaskConical,
-      title: "BA/BE Studies",
-      description:
-        "Comprehensive bioavailability and bioequivalence studies with expert analysis and reporting to support regulatory approvals.",
-      features: [
-        "Paper BE studies",
-        "Generated BE documentation",
-        "Bio-analytical validation",
-        "ANOVA calculations & reporting",
-      ],
-      color: "from-indigo-500 to-indigo-600",
-      image:
-        "https://images.unsplash.com/photo-1582719471137-c3967ffb1c42?w=800&auto=format&fit=crop",
     },
     {
       icon: Building2,
@@ -390,6 +374,177 @@ function Service() {
           </div>
         </div>
       </section>
+
+      {/* ====== NEW: CONTRACT MANUFACTURING SECTION ====== */}
+      <section className="py-20 px-4 sm:px-6 lg:px-8 bg-linear-to-br from-blue-50 via-indigo-50 to-blue-50 relative overflow-hidden">
+        {/* Animated Background Elements */}
+        <div className="absolute top-0 left-0 w-96 h-96 bg-blue-300 rounded-full blur-3xl opacity-10 animate-pulse"></div>
+        <div className="absolute bottom-0 right-0 w-96 h-96 bg-indigo-300 rounded-full blur-3xl opacity-10 animate-pulse" style={{ animationDelay: "1.5s" }}></div>
+
+        <div className="max-w-7xl mx-auto relative z-10">
+          {/* Header */}
+          <div className="text-center mb-16">
+            <div className="inline-block mb-6">
+              <span className="bg-linear-to-r from-blue-600 to-indigo-600 text-white text-sm font-semibold px-5 py-2.5 rounded-full shadow-lg">
+                Contract Manufacturing
+              </span>
+            </div>
+            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-6">
+              Pharmaceutical Contract{" "}
+              <span className="text-transparent bg-clip-text bg-linear-to-r from-blue-600 to-indigo-600">
+                Manufacturing Services
+              </span>
+            </h2>
+            <p className="text-lg md:text-xl text-gray-600 max-w-4xl mx-auto leading-relaxed">
+              At Mitan Pharma, we offer comprehensive contract manufacturing solutions for all dosage forms tailored to meet the specific needs of our valued clients.
+            </p>
+          </div>
+
+          {/* Services Grid */}
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
+            {[
+              {
+                icon: Search,
+                title: "Sourcing & Procurement",
+                description: "Strategic sourcing and procurement of high-quality raw materials",
+                color: "from-blue-500 to-blue-600"
+              },
+              {
+                icon: Settings,
+                title: "Production & Manufacturing",
+                description: "End-to-end production with state-of-the-art facilities",
+                color: "from-indigo-500 to-indigo-600"
+              },
+              {
+                icon: Briefcase,
+                title: "Packaging Solutions",
+                description: "Comprehensive packaging solutions meeting global standards",
+                color: "from-blue-600 to-indigo-600"
+              },
+              {
+                icon: Shield,
+                title: "Quality Control",
+                description: "In-depth quality control and assurance at every stage",
+                color: "from-indigo-600 to-blue-600"
+              }
+            ].map((service, index) => (
+              <div
+                key={index}
+                className="group bg-white rounded-2xl p-6 shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-3 border border-gray-100"
+                style={{ animationDelay: `${index * 100}ms` }}
+              >
+                <div className={`w-16 h-16 bg-linear-to-br ${service.color} rounded-2xl flex items-center justify-center mb-4 group-hover:scale-110 group-hover:rotate-6 transition-all duration-500 shadow-lg`}>
+                  <service.icon className="w-8 h-8 text-white" />
+                </div>
+                <h3 className="text-lg font-bold text-gray-900 mb-2 group-hover:text-blue-600 transition-colors duration-300">
+                  {service.title}
+                </h3>
+                <p className="text-gray-600 text-sm leading-relaxed">
+                  {service.description}
+                </p>
+              </div>
+            ))}
+          </div>
+
+          {/* Why Choose Section */}
+          <div className="bg-white rounded-3xl shadow-2xl overflow-hidden border border-gray-100">
+            <div className="grid lg:grid-cols-2 gap-0">
+              {/* Left Content */}
+              <div className="p-8 md:p-12 lg:p-16">
+                <h3 className="text-2xl md:text-3xl font-bold text-gray-900 mb-8">
+                  Why Choose{" "}
+                  <span className="text-transparent bg-clip-text bg-linear-to-r from-blue-600 to-indigo-600">
+                    Mitan Pharma?
+                  </span>
+                </h3>
+                
+                <div className="space-y-6">
+                  {[
+                    {
+                      icon: Target,
+                      title: "Seamless Integration",
+                      description: "Seamless integration into your supply chain, especially for solid dosage forms"
+                    },
+                    {
+                      icon: TrendingUp,
+                      title: "Optimized Delivery",
+                      description: "Monitoring and optimizing delivery timelines to ensure on-time performance and customer satisfaction"
+                    },
+                    {
+                      icon: Users,
+                      title: "Flexible Trade Terms",
+                      description: "Flexible trade terms with personalized service for every client"
+                    },
+                    {
+                      icon: Globe,
+                      title: "Online Platform",
+                      description: "A secure, online collaboration platform for information sharing and project tracking"
+                    },
+                    {
+                      icon: Shield,
+                      title: "Data Security",
+                      description: "Custom access controls for partners and suppliers, ensuring data confidentiality and control"
+                    }
+                  ].map((item, index) => (
+                    <div
+                      key={index}
+                      className="group flex items-start space-x-4 p-4 rounded-xl hover:bg-blue-50 transition-all duration-300"
+                    >
+                      <div className="shrink-0">
+                        <div className="w-12 h-12 bg-linear-to-br from-blue-100 to-indigo-100 rounded-xl flex items-center justify-center group-hover:scale-110 group-hover:rotate-6 transition-all duration-300">
+                          <item.icon className="w-6 h-6 text-blue-600" />
+                        </div>
+                      </div>
+                      <div>
+                        <h4 className="font-bold text-gray-900 mb-1 group-hover:text-blue-600 transition-colors duration-300">
+                          {item.title}
+                        </h4>
+                        <p className="text-gray-600 text-sm leading-relaxed">
+                          {item.description}
+                        </p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Right Visual */}
+              <div className="relative bg-linear-to-br from-blue-600 to-indigo-700 p-8 md:p-12 lg:p-16 flex items-center justify-center overflow-hidden">
+                {/* Decorative Elements */}
+                <div className="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full blur-3xl"></div>
+                <div className="absolute bottom-0 left-0 w-64 h-64 bg-white/10 rounded-full blur-3xl"></div>
+                
+                <div className="relative z-10 text-center">
+                  <Award className="w-24 h-24 text-white mx-auto mb-8 animate-pulse" />
+                  <h3 className="text-3xl md:text-4xl font-bold text-white mb-6">
+                    Our Goal
+                  </h3>
+                  <p className="text-xl text-blue-100 leading-relaxed max-w-md mx-auto">
+                    To create a productive and profitable outsourcing partnership, solving the complexities of extended supply chains and enabling you to focus on core operations.
+                  </p>
+                  <div className="mt-8">
+                    <Link
+                      to="/contact"
+                      className="inline-flex items-center bg-white text-blue-600 font-bold px-8 py-4 rounded-full hover:bg-blue-50 transition-all duration-300 transform hover:scale-105 shadow-xl"
+                    >
+                      Get Started Today
+                      <ArrowRight className="ml-2 w-5 h-5" />
+                    </Link>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Additional Info */}
+          <div className="mt-16 text-center">
+            <p className="text-gray-600 text-lg leading-relaxed max-w-4xl mx-auto">
+              With our highly integrated production facilities and deep pharmaceutical industry expertise, we manage flexible production lines that adapt to your requirements. This enables us to execute custom contract manufacturing projects with efficiency and precision.
+            </p>
+          </div>
+        </div>
+      </section>
+      {/* ====== END: CONTRACT MANUFACTURING SECTION ====== */}
 
       {/* Why Choose Us Stats Section */}
       <section className="py-20 px-4 sm:px-6 lg:px-8 bg-white">

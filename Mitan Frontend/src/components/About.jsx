@@ -52,7 +52,6 @@ export default function About() {
   ];
 
   const certifications = [
-    { title: "ISO 9001:2015 Certified", icon: Award },
     { title: "GMP Compliance Expert", icon: Shield },
     { title: "FDA Regulatory Knowledge", icon: FileCheck },
     { title: "ICH Guidelines Specialist", icon: BookOpen },
@@ -130,12 +129,6 @@ export default function About() {
       title: "Foundation",
       description:
         "Mitan Pharma established with a vision to transform pharmaceutical compliance",
-    },
-    {
-      year: "2008",
-      title: "ISO Certification",
-      description:
-        "Achieved ISO 9001:2015 certification for quality management systems",
     },
     {
       year: "2015",

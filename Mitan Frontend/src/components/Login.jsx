@@ -20,10 +20,6 @@ export default function Login() {
   const rightRef = useRef();
   const logoRef = useRef();
 
-  const signupPage = () => {
-    Navigate("/");
-  };
-
   const [showPassword, setShowPassword] = useState(false);
   const [animated, setAnimated] = useState(false);
 
@@ -106,7 +102,7 @@ export default function Login() {
           Navigate("/admin/dashboard");
           toast.success(`Hii Naveen! Welcome back to Mitan Pharma!`);
         } else {
-          Navigate("/home");
+          Navigate("/");
           toast.success("Login Successful! Welcome to Mitan Pharma!");
         }
 
@@ -180,94 +176,6 @@ export default function Login() {
                 : "opacity-0 -translate-x-20"
             } ${shake ? "animate-shake" : ""}`}
           >
-            <style>{`
-              @keyframes shake {
-                0%, 100% { transform: translateX(0); }
-                25% { transform: translateX(-10px); }
-                50% { transform: translateX(10px); }
-                75% { transform: translateX(-10px); }
-              }
-              .animate-shake {
-                animation: shake 0.4s ease-in-out;
-              }
-              @keyframes slideInLeft {
-                from {
-                  opacity: 0;
-                  transform: translateX(-100px);
-                }
-                to {
-                  opacity: 1;
-                  transform: translateX(0);
-                }
-              }
-              @keyframes slideInRight {
-                from {
-                  opacity: 0;
-                  transform: translateX(100px);
-                }
-                to {
-                  opacity: 1;
-                  transform: translateX(0);
-                }
-              }
-              @keyframes fadeInUp {
-                from {
-                  opacity: 0;
-                  transform: translateY(20px);
-                }
-                to {
-                  opacity: 1;
-                  transform: translateY(0);
-                }
-              }
-              @keyframes scaleIn {
-                from {
-                  opacity: 0;
-                  transform: scale(0.5);
-                }
-                to {
-                  opacity: 1;
-                  transform: scale(1);
-                }
-              }
-              @keyframes bounceIn {
-                0% {
-                  opacity: 0;
-                  transform: scale(0.8);
-                }
-                50% {
-                  transform: scale(1.05);
-                }
-                100% {
-                  opacity: 1;
-                  transform: scale(1);
-                }
-              }
-              .animate-slide-in-left {
-                animation: slideInLeft 1s ease-out;
-              }
-              .animate-slide-in-right {
-                animation: slideInRight 1s ease-out;
-              }
-              .animate-fade-in-up {
-                animation: fadeInUp 0.6s ease-out;
-              }
-              .animate-scale-in {
-                animation: scaleIn 0.8s ease-out;
-              }
-              .animate-bounce-in {
-                animation: bounceIn 0.6s ease-out;
-              }
-              .delay-100 { animation-delay: 0.1s; }
-              .delay-200 { animation-delay: 0.2s; }
-              .delay-300 { animation-delay: 0.3s; }
-              .delay-400 { animation-delay: 0.4s; }
-              .delay-500 { animation-delay: 0.5s; }
-              .delay-600 { animation-delay: 0.6s; }
-              .delay-700 { animation-delay: 0.7s; }
-              .delay-800 { animation-delay: 0.8s; }
-            `}</style>
-
             <div className="max-w-md mx-auto w-full">
               {/* Logo at top of form */}
               <div
@@ -471,14 +379,7 @@ export default function Login() {
                     animated ? "opacity-100" : "opacity-0"
                   }`}
                 >
-                  <div className="absolute inset-0 flex items-center">
-                    <div className="w-full border-t border-gray-300"></div>
-                  </div>
-                  <div className="relative flex justify-center text-sm">
-                    <span className="px-4 bg-linear-to-br from-gray-50 to-blue-50 text-gray-500">
-                      New to Mitan Pharma?
-                    </span>
-                  </div>
+                  
                 </div>
               </div>
             </div>

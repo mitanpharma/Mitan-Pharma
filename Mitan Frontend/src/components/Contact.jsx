@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import {
   Phone,
   Mail,
@@ -31,6 +32,8 @@ export default function ContactUs() {
     });
   };
 
+  
+
   const handleSubmit = (e) => {
     e.preventDefault();
     setSubmitted(true);
@@ -40,7 +43,6 @@ export default function ContactUs() {
         fullName: "",
         email: "",
         phone: "",
-        company: "",
         message: "",
       });
       setSubmitted(false);
@@ -70,13 +72,26 @@ export default function ContactUs() {
               Get In <span className="text-blue-600">Touch</span>
             </h1>
 
-            <p className="text-xl md:text-2xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
+            <p className="text-xl font-serif md:text-2xl text-gray-600 max-w-3xl mb-5 mx-auto leading-relaxed">
               Have questions about our pharmaceutical consultancy services?
               <span className="text-gray-900 font-semibold">
                 {" "}
                 We're here to help!
               </span>
             </p>
+            <h1 className="text-sm md:text-2xl font-serif mb-6 text-black leading-tight">
+              Note:{" "}
+              <span className="text-red-600">
+                You Need To Sign Up To Send Us Message
+              </span>
+            </h1>
+              <Link
+                to="/signup"
+                className="inline-flex items-center px-6 py-2.5 bg-green-600 text-white text-sm font-medium rounded-full shadow-lg hover:bg-green-700 hover:shadow-xl transform hover:scale-105 transition-all duration-300"
+              >
+                Sign Up Here
+              </Link>
+           
           </div>
         </div>
 
@@ -146,24 +161,6 @@ export default function ContactUs() {
                           />
                         </div>
                       </div>
-
-                      {/* Company */}
-                      <div className="relative group">
-                        <label className="block text-sm font-bold font-serif text-gray-700 mb-2">
-                          Company Name
-                        </label>
-                        <input
-                          type="text"
-                          name="company"
-                          value={formData.company}
-                          onChange={handleChange}
-                          onFocus={() => setFocusedField("company")}
-                          onBlur={() => setFocusedField(null)}
-                          placeholder="Your Company"
-                          className="w-full bg-blue-50 border-3 border-blue-200 rounded-2xl px-6 py-4 text-gray-900 placeholder-gray-400 focus:border-blue-600 focus:bg-white focus:outline-none transition-all duration-300"
-                        />
-                      </div>
-
                       {/* Message */}
                       <div className="relative group">
                         <label className="block text-sm font-bold font-serif text-gray-700 mb-2">
@@ -334,74 +331,6 @@ export default function ContactUs() {
           </div>
         </div>
       </div>
-
-      <style jsx>{`
-        @keyframes float {
-          0%,
-          100% {
-            transform: translateY(0px) translateX(0px);
-          }
-          33% {
-            transform: translateY(-20px) translateX(10px);
-          }
-          66% {
-            transform: translateY(-10px) translateX(-10px);
-          }
-        }
-
-        @keyframes float-delayed {
-          0%,
-          100% {
-            transform: translateY(0px) translateX(0px);
-          }
-          33% {
-            transform: translateY(-30px) translateX(-15px);
-          }
-          66% {
-            transform: translateY(-15px) translateX(15px);
-          }
-        }
-
-        @keyframes float-slow {
-          0%,
-          100% {
-            transform: translateY(0px) translateX(0px);
-          }
-          50% {
-            transform: translateY(-25px) translateX(-20px);
-          }
-        }
-
-        @keyframes bounce-in {
-          0% {
-            transform: scale(0);
-            opacity: 0;
-          }
-          50% {
-            transform: scale(1.2);
-          }
-          100% {
-            transform: scale(1);
-            opacity: 1;
-          }
-        }
-
-        .animate-float {
-          animation: float 20s ease-in-out infinite;
-        }
-
-        .animate-float-delayed {
-          animation: float-delayed 25s ease-in-out infinite;
-        }
-
-        .animate-float-slow {
-          animation: float-slow 30s ease-in-out infinite;
-        }
-
-        .animate-bounce-in {
-          animation: bounce-in 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-        }
-      `}</style>
     </div>
   );
 }
