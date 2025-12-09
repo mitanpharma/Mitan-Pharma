@@ -23,9 +23,6 @@ export default function Signup() {
   const logoRef = useRef();
   const imageRef = useRef();
 
-  const loginPage = () => {
-    Navigate("/login");
-  };
 
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
@@ -190,7 +187,7 @@ export default function Signup() {
 
     try {
       const response = await axios.post(
-        "http://localhost:5000/User/signup",
+        "https://mitanbackend.onrender.com/User/signup",
         {
           name: formData.name,
           email: formData.email,
@@ -200,7 +197,7 @@ export default function Signup() {
         { withCredentials: true }
       );
       toast.success("Registration Done");
-      Navigate("/login");
+      Navigate("/contact");
       setFormData({
         name: "",
         email: "",
@@ -293,7 +290,7 @@ export default function Signup() {
                 className="flex items-center justify-center mb-6"
               >
                 <img
-                  src="/public/items/logo main.png"
+                  src="/items/logo main.png"
                   alt="Mitan Pharma Logo"
                   className="w-64 h-auto transform transition-transform duration-300 hover:scale-105"
                 />
@@ -611,19 +608,6 @@ export default function Signup() {
                       Registration Successful!
                     </p>
                   </div>
-                </div>
-
-                {/* Login Link */}
-                <div className="text-center pt-4">
-                  <p className="text-sm text-gray-600">
-                    Already have an account?{" "}
-                    <span
-                      onClick={loginPage}
-                      className="text-blue-600 hover:text-blue-700 font-bold transition-colors duration-300 cursor-pointer"
-                    >
-                      Login Here
-                    </span>
-                  </p>
                 </div>
               </div>
             </div>

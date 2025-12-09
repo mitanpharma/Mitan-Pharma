@@ -99,7 +99,7 @@ export default function Login() {
 
         // ✅ Navigate based on role
         if (userRole === "admin") {
-          Navigate("/admin/dashboard");
+          Navigate('/admin/dashboard/main/tele'); 
           toast.success(`Hii Naveen! Welcome back to Mitan Pharma!`);
         } else {
           Navigate("/");

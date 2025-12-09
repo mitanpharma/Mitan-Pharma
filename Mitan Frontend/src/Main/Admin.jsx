@@ -38,12 +38,15 @@ function Admin() {
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const [activeTab, setActiveTab] = useState("dashboard");
 
-  const Navigate = useNavigate()
+  const Navigate = useNavigate();
 
-  const mainpage = ()=>{
-    Navigate('/')
-  }
+  const mainpage = () => {
+    Navigate("/");
+  };
 
+  const usermessages = () => {
+    Navigate("/messageDetails");
+  };
 
   // Dashboard Stats
   const stats = [
@@ -289,7 +292,11 @@ function Admin() {
         <div className="absolute bottom-4 left-4 right-4">
           <button className="w-full flex items-center space-x-3 px-4 py-3 text-red-600 hover:bg-red-50 rounded-xl transition-all duration-300">
             <LogOut className="w-5 h-5" />
-            {sidebarOpen && <span onClick={mainpage} className="font-medium">Logout</span>}
+            {sidebarOpen && (
+              <span onClick={mainpage} className="font-medium">
+                Logout
+              </span>
+            )}
           </button>
         </div>
       </aside>
@@ -533,9 +540,15 @@ function Admin() {
                     </div>
                   ))}
                 </div>
+                <button
+                  onClick={usermessages}
+                  className="w-full mt-6 py-3 bg-green-500 text-white font-semibold rounded-xl transform hover:scale-105 transition-all duration-300 shadow-lg"
+                >
+                  View User Messages
+                </button>
 
                 <button className="w-full mt-6 py-3 bg-linear-to-r from-blue-600 to-indigo-600 text-white font-semibold rounded-xl hover:from-blue-700 hover:to-indigo-700 transform hover:scale-105 transition-all duration-300 shadow-lg">
-                  View All Activity
+                  View Doctors Activity
                 </button>
               </div>
             </div>

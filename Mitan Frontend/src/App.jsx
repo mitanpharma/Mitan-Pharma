@@ -23,6 +23,7 @@ import Terms from "./components/Terms";
 
 // Admin
 import Admin from "../src/Main/Admin";
+import AdminMessages from "./Main/AdminMessages";
 import NotFound from "../src/Main/NotFound";
 
 function App() {
@@ -59,7 +60,7 @@ function App() {
 
       <Routes>
         {/* Public Routes - Auth (No Layout) */}
-         <Route path="/signup" element={<Signup />} />
+        <Route path="/signup" element={<Signup />} />
         <Route path="/login" element={<Login />} />
 
         {/* Protected Routes - Main App (With Layout) */}
@@ -70,14 +71,15 @@ function App() {
           <Route path="/team" element={<Team />} />
           <Route path="/faq" element={<FAQ />} />
           <Route path="/contact" element={<Contact />} />
-          
+
           {/* Legal Pages */}
           {/* <Route path="/privacy" element={<Privacy />} />
           <Route path="/terms" element={<Terms />} /> */}
         </Route>
 
         {/* Admin Routes (No Layout) */}
-        <Route path="/admin/dashboard" element={<Admin />} />
+        <Route path="/admin/dashboard/main/tele" element={<Admin />} />
+        <Route path="/messageDetails" element={<AdminMessages />} />
 
         {/* 404 - Catch all unmatched routes */}
         <Route path="*" element={<NotFound />} />

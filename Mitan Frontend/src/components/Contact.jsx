@@ -8,45 +8,127 @@ import {
   Clock,
   CheckCircle,
   ArrowRight,
-  Menu,
-  X,
 } from "lucide-react";
+import axios from "axios";
+import toast from "react-hot-toast";
 
 export default function ContactUs() {
   const [formData, setFormData] = useState({
     fullName: "",
     email: "",
     phone: "",
-    company: "",
     message: "",
   });
 
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [focusedField, setFocusedField] = useState(null);
   const [submitted, setSubmitted] = useState(false);
+  const [errors, setErrors] = useState({});
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleChange = (e) => {
+    const { name, value } = e.target;
     setFormData({
       ...formData,
-      [e.target.name]: e.target.value,
+      [name]: value,
     });
+
+    if (errors[name]) {
+      setErrors({
+        ...errors,
+        [name]: "",
+      });
+    }
   };
 
-  
+  // Validate form
+  const validateForm = () => {
+    const newErrors = {};
 
-  const handleSubmit = (e) => {
+    // Full Name validation
+    if (!formData.fullName.trim()) {
+      newErrors.fullName = "Full name is required";
+    } else if (formData.fullName.trim().length < 2) {
+      newErrors.fullName = "Name must be at least 2 characters";
+    }
+
+    // Email validation
+    if (!formData.email.trim()) {
+      newErrors.email = "Email is required";
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
+      newErrors.email = "Please enter a valid email address";
+    }
+
+    // Phone validation
+    if (!formData.phone.trim()) {
+      newErrors.phone = "Phone number is required";
+    } else if (!/^[0-9]{10,15}$/.test(formData.phone.replace(/[^0-9]/g, ""))) {
+      newErrors.phone = "Please enter a valid phone number (10-15 digits)";
+    }
+
+    // Message validation
+    if (!formData.message.trim()) {
+      newErrors.message = "Message is required";
+    } else if (formData.message.trim().length < 10) {
+      newErrors.message = "Message must be at least 10 characters";
+    }
+
+    return newErrors;
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    setSubmitted(true);
 
-    setTimeout(() => {
-      setFormData({
-        fullName: "",
-        email: "",
-        phone: "",
-        message: "",
-      });
-      setSubmitted(false);
-    }, 3000);
+    const newErrors = validateForm();
+
+    // If there are errors, set them and don't submit
+    if (Object.keys(newErrors).length > 0) {
+      setErrors(newErrors);
+
+      // Scroll to first error
+      const firstErrorField = Object.keys(newErrors)[0];
+      const errorElement = document.getElementsByName(firstErrorField)[0];
+      if (errorElement) {
+        errorElement.focus();
+        errorElement.scrollIntoView({ behavior: "smooth", block: "center" });
+      }
+      return;
+    }
+
+    // If validation passes, submit the form
+    setIsSubmitting(true);
+
+    try {
+      const response = await axios.post(
+        "https://mitanbackend.onrender.com/api/contact/",
+        {
+          name: formData.fullName,
+          email: formData.email,
+          phone: formData.phone,
+          message: formData.message,
+        },
+        { withCredentials: true }
+      );
+      setTimeout(() => {
+        setSubmitted(true);
+        setIsSubmitting(false);
+
+        // Reset form after 3 seconds
+        setTimeout(() => {
+          setFormData({
+            fullName: "",
+            email: "",
+            phone: "",
+            company: "",
+            message: "",
+          });
+          setSubmitted(false);
+          setErrors({});
+        }, 3000);
+      }, 1000);
+    } catch (error) {
+      toast.error(error.response?.data?.message || "Can't Send Message!");
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -85,13 +167,12 @@ export default function ContactUs() {
                 You Need To Sign Up To Send Us Message
               </span>
             </h1>
-              <Link
-                to="/signup"
-                className="inline-flex items-center px-6 py-2.5 bg-green-600 text-white text-sm font-medium rounded-full shadow-lg hover:bg-green-700 hover:shadow-xl transform hover:scale-105 transition-all duration-300"
-              >
-                Sign Up Here
-              </Link>
-           
+            <Link
+              to="/signup"
+              className="inline-flex items-center px-6 py-2.5 bg-green-600 text-white text-sm font-medium rounded-full shadow-lg hover:bg-green-700 hover:shadow-xl transform hover:scale-105 transition-all duration-300"
+            >
+              Sign Up Here
+            </Link>
           </div>
         </div>
 
