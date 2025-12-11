@@ -46,8 +46,9 @@ function Admin() {
     try {
       const Response = await axios.post(
         `${import.meta.env.VITE_API_URL}/User/logout`,
+        {}, 
         {
-          withCredentials: true,
+          withCredentials: true, 
         }
       );
       Navigate("/");
