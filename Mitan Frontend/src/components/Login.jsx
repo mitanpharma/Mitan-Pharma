@@ -165,7 +165,7 @@ export default function Login() {
       </div>
 
       {/* Main Container */}
-      <div className="relative z-10 w-full max-w-6xl bg-white rounded-3xl shadow-2xl overflow-hidden transform transition-all duration-500 hover:shadow-3xl">
+      <div className="relative z-10 w-full bg-white rounded-3xl shadow-2xl overflow-hidden transform transition-all duration-500 hover:shadow-3xl">
         <div className="grid lg:grid-cols-2 min-h-[700px]">
           {/* Left Side - Form Section */}
           <div

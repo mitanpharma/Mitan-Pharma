@@ -6,15 +6,11 @@ import { useGSAP } from "@gsap/react";
 import {
   CheckCircle,
   FileText,
-  FlaskConical,
-  Building2,
   ArrowRight,
   Shield,
   Globe,
   Award,
-  Target,
   Users,
-  TrendingUp,
   Microscope,
   BookOpen,
   ClipboardCheck,
@@ -59,7 +55,6 @@ function Home() {
       );
     }
   }, []);
-
 
   // Services Section Scroll Animation
   // useGSAP(() => {
@@ -115,7 +110,7 @@ function Home() {
       description:
         "GMP Compliance, Documentation Management, and Audit Support, ensuring adherence to regulatory standards, minimizing risks, and achieving successful certifications with minimal findings for global market access.",
       color: "from-blue-500 to-indigo-500",
-    }
+    },
   ];
 
   const features = [
@@ -139,7 +134,7 @@ function Home() {
       text: "Global Regulatory Knowledge",
       color: "bg-indigo-100 text-indigo-600",
     },
-    
+
     {
       icon: Users,
       text: "Comprehensive Training Programs",
