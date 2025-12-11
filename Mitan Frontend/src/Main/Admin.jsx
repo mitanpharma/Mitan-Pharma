@@ -33,6 +33,8 @@ import {
   PieChart,
   LogOut,
 } from "lucide-react";
+import axios from "axios";
+import toast from "react-hot-toast";
 
 function Admin() {
   const [sidebarOpen, setSidebarOpen] = useState(true);
@@ -40,8 +42,19 @@ function Admin() {
 
   const Navigate = useNavigate();
 
-  const mainpage = () => {
-    Navigate("/");
+  const adminLogout = async () => {
+    try {
+      const Response = await axios.get(
+        `${import.meta.env.VITE_API_URL}/User/logout`,
+        {
+          withCredentials: true,
+        }
+      );
+      Navigate("/");
+      toast.success("Admin Logout Succesfully");
+    } catch (error) {
+      toast.error(error.response?.data?.message || "Can't Logout Right Now!");
+    }
   };
 
   const usermessages = () => {
@@ -293,7 +306,7 @@ function Admin() {
           <button className="w-full flex items-center space-x-3 px-4 py-3 text-red-600 hover:bg-red-50 rounded-xl transition-all duration-300">
             <LogOut className="w-5 h-5" />
             {sidebarOpen && (
-              <span onClick={mainpage} className="font-medium">
+              <span onClick={adminLogout} className="font-medium">
                 Logout
               </span>
             )}

@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
 import {
   Phone,
   Mail,
@@ -61,8 +60,19 @@ export default function ContactUs() {
     // Phone validation
     if (!formData.phone.trim()) {
       newErrors.phone = "Phone number is required";
-    } else if (!/^[0-9]{10,15}$/.test(formData.phone.replace(/[^0-9]/g, ""))) {
-      newErrors.phone = "Please enter a valid phone number (10-15 digits)";
+    } else {
+      const cleanedPhone = formData.phone.replace(/[^0-9]/g, "");
+
+      if (cleanedPhone.length !== 10) {
+        newErrors.phone = "Phone number must be exactly 10 digits";
+      } else if (!/^[6-9]\d{9}$/.test(cleanedPhone)) {
+        newErrors.phone = "Please enter a valid phone number";
+      } else if (
+        /^(0123456789|1234567890|9876543210|0987654321)$/.test(cleanedPhone) ||
+        /^(\d)\1{9}$/.test(cleanedPhone)
+      ) {
+        newErrors.phone = "Please enter a valid phone number";
+      }
     }
 
     // Message validation
@@ -99,7 +109,7 @@ export default function ContactUs() {
 
     try {
       const response = await axios.post(
-        "https://mitanbackend.onrender.com/api/contact/",
+        `${import.meta.env.VITE_API_URL}/api/contact`,
         {
           name: formData.fullName,
           email: formData.email,
@@ -118,7 +128,6 @@ export default function ContactUs() {
             fullName: "",
             email: "",
             phone: "",
-            company: "",
             message: "",
           });
           setSubmitted(false);
@@ -161,18 +170,6 @@ export default function ContactUs() {
                 We're here to help!
               </span>
             </p>
-            <h1 className="text-sm md:text-2xl font-serif mb-6 text-black leading-tight">
-              Note:{" "}
-              <span className="text-red-600">
-                You Need To Sign Up To Send Us Message
-              </span>
-            </h1>
-            <Link
-              to="/signup"
-              className="inline-flex items-center px-6 py-2.5 bg-green-600 text-white text-sm font-medium rounded-full shadow-lg hover:bg-green-700 hover:shadow-xl transform hover:scale-105 transition-all duration-300"
-            >
-              Sign Up Here
-            </Link>
           </div>
         </div>
 
@@ -203,7 +200,11 @@ export default function ContactUs() {
                           onBlur={() => setFocusedField(null)}
                           placeholder="John Doe"
                           required
-                          className="w-full bg-blue-50 border-3 border-blue-200 rounded-2xl px-6 py-4 text-gray-900 placeholder-gray-400 focus:border-blue-600 focus:bg-white focus:outline-none transition-all duration-300"
+                          className={`w-full bg-blue-50 border-3 rounded-2xl px-6 py-4 text-gray-900 placeholder-gray-400 focus:bg-white focus:outline-none transition-all duration-300 ${
+                            errors.fullName
+                              ? "border-red-500 focus:border-red-600"
+                              : "border-blue-200 focus:border-blue-600"
+                          }`}
                         />
                       </div>
 
@@ -222,7 +223,11 @@ export default function ContactUs() {
                             onBlur={() => setFocusedField(null)}
                             placeholder="john@example.com"
                             required
-                            className="w-full bg-blue-50 border-3 border-blue-200 rounded-2xl px-6 py-4 text-gray-900 placeholder-gray-400 focus:border-blue-600 focus:bg-white focus:outline-none transition-all duration-300"
+                            className={`w-full bg-blue-50 border-3 rounded-2xl px-6 py-4 text-gray-900 placeholder-gray-400 focus:bg-white focus:outline-none transition-all duration-300 ${
+                              errors.fullName
+                                ? "border-red-500 focus:border-red-600"
+                                : "border-blue-200 focus:border-blue-600"
+                            }`}
                           />
                         </div>
 
@@ -230,16 +235,42 @@ export default function ContactUs() {
                           <label className="block text-sm font-bold font-serif text-gray-700 mb-2">
                             Phone Number
                           </label>
-                          <input
-                            type="tel"
-                            name="phone"
-                            value={formData.phone}
-                            onChange={handleChange}
-                            onFocus={() => setFocusedField("phone")}
-                            onBlur={() => setFocusedField(null)}
-                            placeholder="+91 98765 43210"
-                            className="w-full bg-blue-50 border-3 border-blue-200 rounded-2xl px-6 py-4 text-gray-900 placeholder-gray-400 focus:border-blue-600 focus:bg-white focus:outline-none transition-all duration-300"
-                          />
+                          <div className="flex gap-2">
+                            {/* Country Code Box */}
+                            <div className="flex items-center bg-blue-50 border-3 border-blue-200 rounded-2xl px-4 py-4 text-gray-900 font-medium">
+                              +91
+                            </div>
+
+                            {/* Phone Number Input */}
+                            <input
+                              type="tel"
+                              name="phone"
+                              value={formData.phone}
+                              onChange={(e) => {
+                                const value = e.target.value.replace(
+                                  /[^0-9]/g,
+                                  ""
+                                );
+                                if (value.length <= 10) {
+                                  handleChange({
+                                    target: {
+                                      name: "phone",
+                                      value: value,
+                                    },
+                                  });
+                                }
+                              }}
+                              onFocus={() => setFocusedField("phone")}
+                              onBlur={() => setFocusedField(null)}
+                              placeholder="XXXXX XXXXX"
+                              maxLength={10}
+                              className={`w-full bg-blue-50 border-3 rounded-2xl px-6 py-4 text-gray-900 placeholder-gray-400 focus:bg-white focus:outline-none transition-all duration-300 ${
+                                errors.fullName
+                                  ? "border-red-500 focus:border-red-600"
+                                  : "border-blue-200 focus:border-blue-600"
+                              }`}
+                            />
+                          </div>
                         </div>
                       </div>
                       {/* Message */}
@@ -256,7 +287,11 @@ export default function ContactUs() {
                           placeholder="Tell us about your requirements..."
                           rows="6"
                           required
-                          className="w-full bg-blue-50 border-3 border-blue-200 rounded-2xl px-6 py-4 text-gray-900 placeholder-gray-400 focus:border-blue-600 focus:bg-white focus:outline-none transition-all duration-300 resize-none"
+                          className={`w-full bg-blue-50 border-3 rounded-2xl px-6 py-4 text-gray-900 placeholder-gray-400 focus:bg-white focus:outline-none transition-all duration-300 ${
+                            errors.fullName
+                              ? "border-red-500 focus:border-red-600"
+                              : "border-blue-200 focus:border-blue-600"
+                          }`}
                         ></textarea>
                       </div>
 

@@ -59,10 +59,6 @@ function App() {
       />
 
       <Routes>
-        {/* Public Routes - Auth (No Layout) */}
-        <Route path="/signup" element={<Signup />} />
-        <Route path="/login" element={<Login />} />
-
         {/* Protected Routes - Main App (With Layout) */}
         <Route element={<Layout />}>
           <Route path="/" element={<Home />} />
@@ -71,6 +67,8 @@ function App() {
           <Route path="/team" element={<Team />} />
           <Route path="/faq" element={<FAQ />} />
           <Route path="/contact" element={<Contact />} />
+          <Route path="/signup" element={<Signup />} />
+          <Route path="/login" element={<Login />} />
 
           {/* Legal Pages */}
           {/* <Route path="/privacy" element={<Privacy />} />

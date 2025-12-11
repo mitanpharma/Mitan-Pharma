@@ -23,7 +23,6 @@ export default function Signup() {
   const logoRef = useRef();
   const imageRef = useRef();
 
-
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
@@ -152,8 +151,22 @@ export default function Signup() {
       newErrors.email = "Email is invalid";
     }
 
+    // Phone validation
     if (!formData.phone.trim()) {
       newErrors.phone = "Phone number is required";
+    } else {
+      const cleanedPhone = formData.phone.replace(/[^0-9]/g, "");
+
+      if (cleanedPhone.length !== 10) {
+        newErrors.phone = "Phone number must be exactly 10 digits";
+      } else if (!/^[6-9]\d{9}$/.test(cleanedPhone)) {
+        newErrors.phone = "Please enter a valid phone number";
+      } else if (
+        /^(0123456789|1234567890|9876543210|0987654321)$/.test(cleanedPhone) ||
+        /^(\d)\1{9}$/.test(cleanedPhone)
+      ) {
+        newErrors.phone = "Please enter a valid phone number";
+      }
     }
 
     if (!formData.password) {
@@ -187,7 +200,7 @@ export default function Signup() {
 
     try {
       const response = await axios.post(
-        "https://mitanbackend.onrender.com/User/signup",
+        `${import.meta.env.VITE_API_URL}/User/signup`,
         {
           name: formData.name,
           email: formData.email,
@@ -570,7 +583,7 @@ export default function Signup() {
                   className="w-full bg-linear-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-bold py-3.5 rounded-lg transition-all duration-300 transform hover:scale-[1.02] hover:shadow-xl active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center group"
                 >
                   {isSubmitting ? (
-                    <> 
+                    <>
                       <svg
                         className="animate-spin h-5 w-5 mr-3 text-white"
                         viewBox="0 0 24 24"

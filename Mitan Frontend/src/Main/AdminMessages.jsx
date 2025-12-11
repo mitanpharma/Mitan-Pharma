@@ -26,12 +26,11 @@ const AdminMessages = () => {
     setLoading(true);
     try {
       const response = await axios.get(
-        "https://mitanbackend.onrender.com/api/contact/all",
+        `${import.meta.env.VITE_API_URL}/api/contact/all`,
         {
           withCredentials: true,
         }
       );
-
       // Your backend wraps data in response.data.data.messages
       const messagesArray = response.data?.data?.messages || [];
 
@@ -109,7 +108,7 @@ const AdminMessages = () => {
       `}</style>
 
       {/* Header */}
-      <div className="bg-linear-to-r from-blue-600 via-blue-500 to-teal-500 shadow-lg sticky top-0 z-50">
+      <div className="bg-blue-400 shadow-lg sticky top-0 z-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
           <div className="flex items-center justify-between flex-wrap gap-4">
             <div className="animate-fade-in">
@@ -117,19 +116,19 @@ const AdminMessages = () => {
                 <Mail className="w-8 h-8 animate-pulse" />
                 Mitan Pharma Admin
               </h1>
-              <p className="text-blue-100 mt-1">Customer Messages Dashboard</p>
+              <p className="text-white mt-1">Customer Messages Dashboard</p>
             </div>
             <div className="flex gap-3">
               <button
                 onClick={fetchMessages}
-                className="glass-effect px-5 py-2.5 rounded-full text-white font-semibold hover:bg-white/30 transition-all duration-300 flex items-center gap-2 shadow-lg"
+                className="bg-red-500 px-5 py-2.5 rounded-full text-white font-semibold hover:bg-red-600 transition-all duration-300 flex items-center gap-2 shadow-lg"
               >
                 <RefreshCw
                   className={`w-5 h-5 ${loading ? "animate-spin" : ""}`}
                 />
                 Refresh
               </button>
-              <div className="glass-effect px-6 py-2.5 rounded-full shadow-lg">
+              <div className="bg-lime-400 px-6 py-2.5 rounded-full shadow-lg">
                 <p className="text-white font-semibold">
                   {messages.length} Messages
                 </p>
@@ -170,7 +169,7 @@ const AdminMessages = () => {
                 style={{ animationDelay: `${index * 100}ms` }}
                 className="bg-white rounded-2xl shadow-md hover:shadow-2xl transform hover:-translate-y-2 transition-all duration-300 overflow-hidden animate-fade-in"
               >
-                <div className="bg-linear-to-r from-blue-500 to-teal-500 p-4">
+                <div className="bg-linear-to-r from-blue-400 to-blue-500 p-4">
                   <div className="flex items-center gap-2">
                     <User className="w-5 h-5 text-white" />
                     <h3 className="font-bold text-white text-lg capitalize">
@@ -200,7 +199,7 @@ const AdminMessages = () => {
 
                   <button
                     onClick={() => setSelectedMessage(msg)}
-                    className="w-full mt-4 bg-linear-to-r from-blue-500 to-teal-500 text-white py-2.5 rounded-lg font-semibold hover:from-blue-600 hover:to-teal-600 transition-all duration-300 flex items-center justify-center gap-2"
+                    className="w-full mt-4 bg-linear-to-r from-cyan-400 to-cyan-500 text-white py-2.5 rounded-lg font-semibold hover:from-cyan-500 hover:to-teal-600 transition-all duration-300 flex items-center justify-center gap-2"
                   >
                     <Eye className="w-4 h-4" />
                     View Details

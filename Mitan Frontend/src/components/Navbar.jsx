@@ -15,21 +15,22 @@ function Navbar() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
- 
-
   const navItems = [
     { name: "Home", path: "/" },
     { name: "About", path: "/about" },
     { name: "Services", path: "/services" },
     { name: "Team", path: "/team" },
     { name: "FAQ", path: "/FAQ" },
+    { name: "Contact us", path: "/contact" },
   ];
 
   const isActive = (path) => location.pathname === path;
 
   return (
     <nav
-      className="fixed top-0 left-0 right-0 z-50 transition-all duration-500"
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
+        isScrolled ? "bg-white backdrop-blur-md shadow-lg" : "bg-transparent"
+      }`}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-20">
@@ -120,10 +121,10 @@ function Navbar() {
           {/* Contact Us Button - Desktop */}
           <div className="hidden md:flex items-center space-x-2">
             <Link
-              to="/contact"
-              className="inline-flex items-center px-6 py-2.5 bg-blue-600 text-white text-sm font-medium rounded-full shadow-lg hover:bg-blue-700 hover:shadow-xl transform hover:scale-105 transition-all duration-300"
+              to="/signup"
+              className="inline-flex items-center px-6 py-2.5 bg-green-600 text-white text-sm font-medium rounded-full shadow-lg hover:bg-green-700 hover:shadow-xl transform hover:scale-105 transition-all duration-300"
             >
-              Contact Us
+              User Sign Up
             </Link>
             <Link
               to="/login"
