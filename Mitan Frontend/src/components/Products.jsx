@@ -74,7 +74,7 @@ function Products() {
       // Apply search filter
       if (searchTerm.trim()) {
         filtered = filtered.filter((product) =>
-          product.PRODUCT?.toLowerCase().includes(searchTerm.toLowerCase())
+          product.PRODUCT?.toLowerCase().includes(searchTerm.trim().toLowerCase())
         );
       }
 
