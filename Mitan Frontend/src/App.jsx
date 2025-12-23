@@ -25,6 +25,7 @@ import Terms from "./components/Terms";
 import Admin from "../src/Main/Admin";
 import AdminMessages from "./Main/AdminMessages";
 import NotFound from "../src/Main/NotFound";
+import Products from "./components/Products";
 
 function App() {
   return (
@@ -64,6 +65,7 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/about" element={<About />} />
           <Route path="/services" element={<Services />} />
+          <Route path="/products" element={<Products />} />
           <Route path="/team" element={<Team />} />
           <Route path="/faq" element={<FAQ />} />
           <Route path="/contact" element={<Contact />} />

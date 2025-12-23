@@ -21,11 +21,10 @@ function TeamPage() {
 
   const teamMembers = [
     {
-      name: "Dr. Rajesh Kumar",
-      role: "Chief Regulatory Officer",
-      image:
-        "https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?w=800&auto=format&fit=crop",
-      experience: "20+ years Experience",
+      name: "Dr. Manu Babbar",
+      role: "GM- Drug Regulatory Affairs , Ph.D Pharmaceutical Sciences, GATE-Pharmaceutical Sciences ",
+      image: "/public/Sir.png",
+      experience: "15+ years Experience",
       specialization: "Regulatory Affairs & Global Submissions",
       description:
         "Expert in international regulatory strategy with extensive experience in FDA, EMA, and APAC markets.",
@@ -35,7 +34,7 @@ function TeamPage() {
         "Global Submissions",
       ],
       linkedin: "#",
-      email: "rajesh@mitanpharma.com",
+      email: "ManuBabbar@mitanpharma.com",
       category: "leadership",
     },
     {
@@ -148,7 +147,6 @@ function TeamPage() {
         "Extensive experience across ASEAN, CIS, Africa, GCC, and ROW markets.",
     },
   ];
-
 
   const filteredMembers =
     activeTab === "all"

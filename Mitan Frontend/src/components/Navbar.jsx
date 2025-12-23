@@ -1,11 +1,14 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { Menu, X } from "lucide-react";
+import { Menu, X, ChevronDown } from "lucide-react";
 
 function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isServicesOpen, setIsServicesOpen] = useState(false);
+  const [isMobileServicesOpen, setIsMobileServicesOpen] = useState(false);
   const location = useLocation();
+  const dropdownRef = useRef(null);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -15,13 +18,29 @@ function Navbar() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setIsServicesOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
   const navItems = [
     { name: "Home", path: "/" },
     { name: "About", path: "/about" },
-    { name: "Services", path: "/services" },
+    { name: "Services", path: "/services", hasDropdown: true },
     { name: "Team", path: "/team" },
     { name: "FAQ", path: "/FAQ" },
     { name: "Contact us", path: "/contact" },
+  ];
+
+  const servicesDropdownItems = [
+    { name: "All Services", path: "/services" },
+    { name: "Products", path: "/products" },
   ];
 
   const isActive = (path) => location.pathname === path;
@@ -97,24 +116,76 @@ function Navbar() {
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-1">
             {navItems.map((item) => (
-              <Link
-                key={item.path}
-                to={item.path}
-                className={`relative px-4 py-2 text-sm font-medium transition-all duration-300 rounded-lg group ${
-                  isActive(item.path)
-                    ? "text-blue-600"
-                    : "text-gray-700 hover:text-blue-600"
-                }`}
-              >
-                {item.name}
-                <span
-                  className={`absolute bottom-1 left-4 right-4 h-0.5 bg-blue-600 transition-all duration-300 ${
-                    isActive(item.path)
-                      ? "opacity-100 scale-x-100"
-                      : "opacity-0 scale-x-0 group-hover:opacity-100 group-hover:scale-x-100"
-                  }`}
-                />
-              </Link>
+              <div key={item.path} className="relative" ref={item.hasDropdown ? dropdownRef : null}>
+                {item.hasDropdown ? (
+                  <div>
+                    <button
+                      onMouseEnter={() => setIsServicesOpen(true)}
+                      onClick={() => setIsServicesOpen(!isServicesOpen)}
+                      className={`relative px-4 py-2 text-sm font-medium transition-all duration-300 rounded-lg group flex items-center gap-1 ${
+                        isActive(item.path) || location.pathname === "/products"
+                          ? "text-blue-600"
+                          : "text-gray-700 hover:text-blue-600"
+                      }`}
+                    >
+                      {item.name}
+                      <ChevronDown
+                        className={`w-4 h-4 transition-transform duration-300 ${
+                          isServicesOpen ? "rotate-180" : ""
+                        }`}
+                      />
+                      <span
+                        className={`absolute bottom-1 left-4 right-4 h-0.5 bg-blue-600 transition-all duration-300 ${
+                          isActive(item.path) || location.pathname === "/products"
+                            ? "opacity-100 scale-x-100"
+                            : "opacity-0 scale-x-0 group-hover:opacity-100 group-hover:scale-x-100"
+                        }`}
+                      />
+                    </button>
+
+                    {/* Dropdown Menu */}
+                    {isServicesOpen && (
+                      <div
+                        onMouseLeave={() => setIsServicesOpen(false)}
+                        className="absolute top-full left-0 mt-2 w-48 bg-white rounded-lg shadow-xl border border-gray-100 py-2 animate-fadeIn"
+                      >
+                        {servicesDropdownItems.map((dropdownItem) => (
+                          <Link
+                            key={dropdownItem.path}
+                            to={dropdownItem.path}
+                            onClick={() => setIsServicesOpen(false)}
+                            className={`block px-4 py-2.5 text-sm font-medium transition-all duration-300 ${
+                              isActive(dropdownItem.path)
+                                ? "bg-blue-50 text-blue-600"
+                                : "text-gray-700 hover:bg-blue-50 hover:text-blue-600"
+                            }`}
+                          >
+                            {dropdownItem.name}
+                          </Link>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                ) : (
+                  <Link
+                    to={item.path}
+                    className={`relative px-4 py-2 text-sm font-medium transition-all duration-300 rounded-lg group ${
+                      isActive(item.path)
+                        ? "text-blue-600"
+                        : "text-gray-700 hover:text-blue-600"
+                    }`}
+                  >
+                    {item.name}
+                    <span
+                      className={`absolute bottom-1 left-4 right-4 h-0.5 bg-blue-600 transition-all duration-300 ${
+                        isActive(item.path)
+                          ? "opacity-100 scale-x-100"
+                          : "opacity-0 scale-x-0 group-hover:opacity-100 group-hover:scale-x-100"
+                      }`}
+                    />
+                  </Link>
+                )}
+              </div>
             ))}
           </div>
 
@@ -153,26 +224,68 @@ function Navbar() {
           <div className="md:hidden pb-4">
             <div className="py-4 px-2 space-y-2 bg-white rounded-lg shadow-lg border border-gray-100">
               {navItems.map((item) => (
-                <Link
-                  key={item.path}
-                  to={item.path}
-                  onClick={() => setIsMobileMenuOpen(false)}
-                  className={`block px-4 py-3 text-sm font-medium rounded-lg transition-all duration-300 ${
-                    isActive(item.path)
-                      ? "bg-blue-50 text-blue-600"
-                      : "text-gray-700 hover:bg-blue-50 hover:text-blue-600"
-                  }`}
-                >
-                  {item.name}
-                </Link>
+                <div key={item.path}>
+                  {item.hasDropdown ? (
+                    <div>
+                      <button
+                        onClick={() => setIsMobileServicesOpen(!isMobileServicesOpen)}
+                        className={`w-full flex items-center justify-between px-4 py-3 text-sm font-medium rounded-lg transition-all duration-300 ${
+                          isActive(item.path) || location.pathname === "/products"
+                            ? "bg-blue-50 text-blue-600"
+                            : "text-gray-700 hover:bg-blue-50 hover:text-blue-600"
+                        }`}
+                      >
+                        {item.name}
+                        <ChevronDown
+                          className={`w-4 h-4 transition-transform duration-300 ${
+                            isMobileServicesOpen ? "rotate-180" : ""
+                          }`}
+                        />
+                      </button>
+                      {isMobileServicesOpen && (
+                        <div className="ml-4 mt-2 space-y-2">
+                          {servicesDropdownItems.map((dropdownItem) => (
+                            <Link
+                              key={dropdownItem.path}
+                              to={dropdownItem.path}
+                              onClick={() => {
+                                setIsMobileMenuOpen(false);
+                                setIsMobileServicesOpen(false);
+                              }}
+                              className={`block px-4 py-2.5 text-sm font-medium rounded-lg transition-all duration-300 ${
+                                isActive(dropdownItem.path)
+                                  ? "bg-blue-100 text-blue-600"
+                                  : "text-gray-600 hover:bg-blue-50 hover:text-blue-600"
+                              }`}
+                            >
+                              {dropdownItem.name}
+                            </Link>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  ) : (
+                    <Link
+                      to={item.path}
+                      onClick={() => setIsMobileMenuOpen(false)}
+                      className={`block px-4 py-3 text-sm font-medium rounded-lg transition-all duration-300 ${
+                        isActive(item.path)
+                          ? "bg-blue-50 text-blue-600"
+                          : "text-gray-700 hover:bg-blue-50 hover:text-blue-600"
+                      }`}
+                    >
+                      {item.name}
+                    </Link>
+                  )}
+                </div>
               ))}
               <div className="pt-2 space-y-2">
                 <Link
-                  to="/contact"
+                  to="/signup"
                   onClick={() => setIsMobileMenuOpen(false)}
-                  className="block w-full px-4 py-2.5 bg-blue-600 text-white text-sm font-medium rounded-full text-center hover:bg-blue-700 transition-all duration-300 shadow-md"
+                  className="block w-full px-4 py-2.5 bg-green-600 text-white text-sm font-medium rounded-full text-center hover:bg-green-700 transition-all duration-300 shadow-md"
                 >
-                  Contact Us
+                  User Sign Up
                 </Link>
                 <Link
                   to="/login"
