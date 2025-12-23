@@ -22,7 +22,7 @@ function Products() {
   const [loading, setLoading] = useState(false);
   const [initialLoading, setInitialLoading] = useState(true);
   const [error, setError] = useState(null);
-  const itemsPerPage = 50;
+  const itemsPerPage = 25;
 
   // Fetch ALL medicines once on component mount
   const fetchAllMedicines = useCallback(async () => {
