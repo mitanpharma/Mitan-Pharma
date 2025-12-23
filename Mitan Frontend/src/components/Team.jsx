@@ -23,7 +23,7 @@ function TeamPage() {
     {
       name: "Dr. Manu Babbar",
       role: "GM- Drug Regulatory Affairs , Ph.D Pharmaceutical Sciences, GATE-Pharmaceutical Sciences ",
-      image: "/public/Sir.png",
+      image: "/items/Sir.png",
       experience: "15+ years Experience",
       specialization: "Regulatory Affairs & Global Submissions",
       description:
