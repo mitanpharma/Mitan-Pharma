@@ -5,10 +5,10 @@ import { Menu, X, ChevronDown } from "lucide-react";
 function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [isServicesOpen, setIsServicesOpen] = useState(false);
-  const [isMobileServicesOpen, setIsMobileServicesOpen] = useState(false);
+  const [isAboutOpen, setIsAboutOpen] = useState(false);
+  const [isMobileAboutOpen, setIsMobileAboutOpen] = useState(false);
   const location = useLocation();
-  const dropdownRef = useRef(null);
+  const aboutDropdownRef = useRef(null);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -21,8 +21,8 @@ function Navbar() {
   // Close dropdown when clicking outside
   useEffect(() => {
     const handleClickOutside = (event) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-        setIsServicesOpen(false);
+      if (aboutDropdownRef.current && !aboutDropdownRef.current.contains(event.target)) {
+        setIsAboutOpen(false);
       }
     };
     document.addEventListener("mousedown", handleClickOutside);
@@ -31,16 +31,16 @@ function Navbar() {
 
   const navItems = [
     { name: "Home", path: "/" },
-    { name: "About", path: "/about" },
-    { name: "Services", path: "/services", hasDropdown: true },
     { name: "Team", path: "/team" },
-    { name: "FAQ", path: "/FAQ" },
+    { name: "Services", path: "/services" },
+    { name: "Products", path: "/products" },
+    { name: "About", path: "/about", hasDropdown: true, dropdownType: "about" },
     { name: "Contact us", path: "/contact" },
   ];
 
-  const servicesDropdownItems = [
-    { name: "All Services", path: "/services" },
-    { name: "Products", path: "/products" },
+  const aboutDropdownItems = [
+    { name: "About Us", path: "/about" },
+    { name: "FAQ", path: "/FAQ" },
   ];
 
   const isActive = (path) => location.pathname === path;
@@ -116,14 +116,27 @@ function Navbar() {
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-1">
             {navItems.map((item) => (
-              <div key={item.path} className="relative" ref={item.hasDropdown ? dropdownRef : null}>
+              <div 
+                key={item.path} 
+                className="relative" 
+                ref={item.dropdownType === "about" ? aboutDropdownRef : null}
+              >
                 {item.hasDropdown ? (
                   <div>
                     <button
-                      onMouseEnter={() => setIsServicesOpen(true)}
-                      onClick={() => setIsServicesOpen(!isServicesOpen)}
+                      onMouseEnter={() => {
+                        if (item.dropdownType === "about") {
+                          setIsAboutOpen(true);
+                        }
+                      }}
+                      onClick={() => {
+                        if (item.dropdownType === "about") {
+                          setIsAboutOpen(!isAboutOpen);
+                        }
+                      }}
                       className={`relative px-4 py-2 text-sm font-medium transition-all duration-300 rounded-lg group flex items-center gap-1 ${
-                        isActive(item.path) || location.pathname === "/products"
+                        isActive(item.path) || 
+                        (item.dropdownType === "about" && location.pathname === "/FAQ")
                           ? "text-blue-600"
                           : "text-gray-700 hover:text-blue-600"
                       }`}
@@ -131,29 +144,32 @@ function Navbar() {
                       {item.name}
                       <ChevronDown
                         className={`w-4 h-4 transition-transform duration-300 ${
-                          isServicesOpen ? "rotate-180" : ""
+                          (item.dropdownType === "about" && isAboutOpen)
+                            ? "rotate-180" 
+                            : ""
                         }`}
                       />
                       <span
                         className={`absolute bottom-1 left-4 right-4 h-0.5 bg-blue-600 transition-all duration-300 ${
-                          isActive(item.path) || location.pathname === "/products"
+                          isActive(item.path) || 
+                          (item.dropdownType === "about" && location.pathname === "/FAQ")
                             ? "opacity-100 scale-x-100"
                             : "opacity-0 scale-x-0 group-hover:opacity-100 group-hover:scale-x-100"
                         }`}
                       />
                     </button>
 
-                    {/* Dropdown Menu */}
-                    {isServicesOpen && (
+                    {/* About Dropdown Menu */}
+                    {item.dropdownType === "about" && isAboutOpen && (
                       <div
-                        onMouseLeave={() => setIsServicesOpen(false)}
+                        onMouseLeave={() => setIsAboutOpen(false)}
                         className="absolute top-full left-0 mt-2 w-48 bg-white rounded-lg shadow-xl border border-gray-100 py-2 animate-fadeIn"
                       >
-                        {servicesDropdownItems.map((dropdownItem) => (
+                        {aboutDropdownItems.map((dropdownItem) => (
                           <Link
                             key={dropdownItem.path}
                             to={dropdownItem.path}
-                            onClick={() => setIsServicesOpen(false)}
+                            onClick={() => setIsAboutOpen(false)}
                             className={`block px-4 py-2.5 text-sm font-medium transition-all duration-300 ${
                               isActive(dropdownItem.path)
                                 ? "bg-blue-50 text-blue-600"
@@ -228,9 +244,14 @@ function Navbar() {
                   {item.hasDropdown ? (
                     <div>
                       <button
-                        onClick={() => setIsMobileServicesOpen(!isMobileServicesOpen)}
+                        onClick={() => {
+                          if (item.dropdownType === "about") {
+                            setIsMobileAboutOpen(!isMobileAboutOpen);
+                          }
+                        }}
                         className={`w-full flex items-center justify-between px-4 py-3 text-sm font-medium rounded-lg transition-all duration-300 ${
-                          isActive(item.path) || location.pathname === "/products"
+                          isActive(item.path) || 
+                          (item.dropdownType === "about" && location.pathname === "/FAQ")
                             ? "bg-blue-50 text-blue-600"
                             : "text-gray-700 hover:bg-blue-50 hover:text-blue-600"
                         }`}
@@ -238,19 +259,23 @@ function Navbar() {
                         {item.name}
                         <ChevronDown
                           className={`w-4 h-4 transition-transform duration-300 ${
-                            isMobileServicesOpen ? "rotate-180" : ""
+                            (item.dropdownType === "about" && isMobileAboutOpen)
+                              ? "rotate-180" 
+                              : ""
                           }`}
                         />
                       </button>
-                      {isMobileServicesOpen && (
+
+                      {/* About Dropdown - Mobile */}
+                      {item.dropdownType === "about" && isMobileAboutOpen && (
                         <div className="ml-4 mt-2 space-y-2">
-                          {servicesDropdownItems.map((dropdownItem) => (
+                          {aboutDropdownItems.map((dropdownItem) => (
                             <Link
                               key={dropdownItem.path}
                               to={dropdownItem.path}
                               onClick={() => {
                                 setIsMobileMenuOpen(false);
-                                setIsMobileServicesOpen(false);
+                                setIsMobileAboutOpen(false);
                               }}
                               className={`block px-4 py-2.5 text-sm font-medium rounded-lg transition-all duration-300 ${
                                 isActive(dropdownItem.path)

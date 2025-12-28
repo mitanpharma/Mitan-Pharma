@@ -13,97 +13,105 @@ import axios from "axios";
 
 function Products() {
   // State management
-  const [allProducts, setAllProducts] = useState([]); // Store ALL products for search
-  const [displayProducts, setDisplayProducts] = useState([]); // Products to display
+  const [displayProducts, setDisplayProducts] = useState([]);
+  const [productCounts, setProductCounts] = useState({
+    all: 0,
+    tablet: 0,
+    capsule: 0,
+    syrup: 0,
+    injection: 0,
+    infusion: 0,
+  });
   const [selectedType, setSelectedType] = useState("all");
   const [searchTerm, setSearchTerm] = useState("");
+  const [debouncedSearch, setDebouncedSearch] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
+  const [totalItems, setTotalItems] = useState(0);
   const [loading, setLoading] = useState(false);
   const [initialLoading, setInitialLoading] = useState(true);
   const [error, setError] = useState(null);
-  const itemsPerPage = 25;
+  const itemsPerPage = 50;
 
-  // Fetch ALL medicines once on component mount
-  const fetchAllMedicines = useCallback(async () => {
+  // Debounce search term
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setDebouncedSearch(searchTerm);
+      setCurrentPage(1); // Reset to page 1 on new search
+    }, 500);
+    return () => clearTimeout(timer);
+  }, [searchTerm]);
+
+  // Fetch product counts
+  const fetchCounts = useCallback(async () => {
     try {
-      setInitialLoading(true);
-      setError(null);
+      const params = new URLSearchParams();
+      if (debouncedSearch) params.append("search", debouncedSearch);
 
-      // Fetch all products by getting a large limit or fetching all pages
       const response = await axios.get(
-        `${import.meta.env.VITE_API_URL}/api/medicines?page=1&limit=10000`,
-        {
-          withCredentials: true,
-        }
+        `${import.meta.env.VITE_API_URL}/api/medicines/counts?${params}`,
+        { withCredentials: true }
       );
 
-      const medicineArray = response.data?.data || [];
-      setAllProducts(medicineArray);
-      
-      // Initially display first page
-      const firstPageProducts = medicineArray.slice(0, itemsPerPage);
-      setDisplayProducts(firstPageProducts);
-      setTotalPages(Math.ceil(medicineArray.length / itemsPerPage));
+      setProductCounts(
+        response.data?.counts || {
+          all: 0,
+          tablet: 0,
+          capsule: 0,
+          syrup: 0,
+          injection: 0,
+          infusion: 0,
+        }
+      );
+    } catch (error) {
+      console.error("Error fetching counts:", error);
+    }
+  }, [debouncedSearch]);
+
+  // Fetch products with pagination
+  const fetchProducts = useCallback(async () => {
+    try {
+      setLoading(true);
+      setError(null);
+
+      const params = new URLSearchParams({
+        page: currentPage,
+        limit: itemsPerPage,
+      });
+
+      if (debouncedSearch) params.append("search", debouncedSearch);
+      if (selectedType !== "all") params.append("type", selectedType);
+
+      const response = await axios.get(
+        `${import.meta.env.VITE_API_URL}/api/medicines?${params}`,
+        { withCredentials: true }
+      );
+
+      setDisplayProducts(response.data?.data || []);
+      setTotalPages(response.data?.pagination?.totalPages || 1);
+      setTotalItems(response.data?.pagination?.totalItems || 0);
     } catch (error) {
       console.error("Error fetching medicines:", error);
       setError("Failed to load medicines. Please try again later.");
-      setAllProducts([]);
       setDisplayProducts([]);
     } finally {
+      setLoading(false);
       setInitialLoading(false);
-      setLoading(false);
     }
-  }, []);
+  }, [currentPage, debouncedSearch, selectedType]);
 
-  // Initial load - fetch all products once
+  // Fetch products when dependencies change
   useEffect(() => {
-    fetchAllMedicines();
-  }, [fetchAllMedicines]);
+    fetchProducts();
+  }, [fetchProducts]);
 
-  // Handle search and filtering
+  // Fetch counts when search changes
   useEffect(() => {
-    if (!allProducts.length) return;
+    fetchCounts();
+  }, [fetchCounts]);
 
-    setLoading(true);
-
-    // Simulate debounce
-    const timer = setTimeout(() => {
-      let filtered = [...allProducts];
-
-      // Apply search filter
-      if (searchTerm.trim()) {
-        filtered = filtered.filter((product) =>
-          product.PRODUCT?.toLowerCase().includes(searchTerm.trim().toLowerCase())
-        );
-      }
-
-      // Apply type filter
-      if (selectedType !== "all") {
-        filtered = filtered.filter(
-          (product) =>
-            product.MEDICINE_TYPE?.toLowerCase() === selectedType.toLowerCase()
-        );
-      }
-
-      // Update display
-      setDisplayProducts(filtered);
-      setTotalPages(Math.ceil(filtered.length / itemsPerPage));
-      setCurrentPage(1); // Reset to first page when search/filter changes
-      setLoading(false);
-    }, 300);
-
-    return () => clearTimeout(timer);
-  }, [searchTerm, selectedType, allProducts]);
-
-  // Handle pagination - show correct page of filtered results
-  const getPaginatedProducts = () => {
-    const startIndex = (currentPage - 1) * itemsPerPage;
-    const endIndex = startIndex + itemsPerPage;
-    return displayProducts.slice(startIndex, endIndex);
-  };
-
-  const paginatedProducts = getPaginatedProducts();
+  // Backend handles pagination, so we just use displayProducts directly
+  const paginatedProducts = displayProducts;
 
   // Handle page change
   const handlePageChange = (newPage) => {
@@ -119,32 +127,6 @@ function Products() {
     setSelectedType("all");
     setCurrentPage(1);
   };
-
-  // Calculate product counts
-  const getProductCounts = () => {
-    const products = searchTerm ? displayProducts : allProducts;
-    
-    return {
-      all: products.length,
-      tablet: products.filter(
-        (p) => p.MEDICINE_TYPE?.toLowerCase() === "tablet"
-      ).length,
-      capsule: products.filter(
-        (p) => p.MEDICINE_TYPE?.toLowerCase() === "capsule"
-      ).length,
-      syrup: products.filter(
-        (p) => p.MEDICINE_TYPE?.toLowerCase() === "syrup"
-      ).length,
-      injection: products.filter(
-        (p) => p.MEDICINE_TYPE?.toLowerCase() === "injection"
-      ).length,
-      infusion: products.filter(
-        (p) => p.MEDICINE_TYPE?.toLowerCase() === "infusion"
-      ).length,
-    };
-  };
-
-  const productCounts = getProductCounts();
 
   // Render pagination numbers
   const renderPageNumbers = () => {
@@ -173,7 +155,11 @@ function Products() {
     }
 
     // Show current page and neighbors
-    for (let i = Math.max(1, currentPage - 1); i <= Math.min(totalPages, currentPage + 1); i++) {
+    for (
+      let i = Math.max(1, currentPage - 1);
+      i <= Math.min(totalPages, currentPage + 1);
+      i++
+    ) {
       pageNumbers.push(
         <button
           key={i}
@@ -260,7 +246,7 @@ function Products() {
               <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
               <input
                 type="text"
-                placeholder="Search products across all pages..."
+                placeholder="Search products..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
                 className="w-full pl-12 pr-12 py-3 border-2 border-gray-200 rounded-full focus:border-blue-500 focus:outline-none transition-all duration-300 shadow-sm"
@@ -291,10 +277,10 @@ function Products() {
                 <p className="text-sm text-gray-600">
                   Found{" "}
                   <span className="font-semibold text-blue-600">
-                    {displayProducts.length}
+                    {totalItems}
                   </span>{" "}
-                  result{displayProducts.length !== 1 ? "s" : ""} for "
-                  <span className="font-semibold">{searchTerm}</span>" across all pages
+                  result{totalItems !== 1 ? "s" : ""} for "
+                  <span className="font-semibold">{searchTerm}</span>"
                 </p>
               </div>
             )}
@@ -303,7 +289,9 @@ function Products() {
             <div className="bg-white rounded-xl p-4 shadow-md border-2 border-gray-100">
               <div className="flex items-center gap-2 mb-3">
                 <Filter className="w-5 h-5 text-blue-600" />
-                <h3 className="text-lg font-semibold text-gray-800">Select Type:</h3>
+                <h3 className="text-lg font-semibold text-gray-800">
+                  Select Type:
+                </h3>
               </div>
 
               <div className="flex flex-wrap gap-3">
@@ -344,7 +332,7 @@ function Products() {
                 </div>
               </div>
               <button
-                onClick={fetchAllMedicines}
+                onClick={fetchProducts}
                 className="mt-4 px-6 py-2 bg-red-600 text-white font-semibold rounded-lg hover:bg-red-700 transition-all duration-300"
               >
                 Retry
@@ -358,10 +346,7 @@ function Products() {
               <div className="flex justify-center mb-4">
                 <div className="animate-spin rounded-full h-16 w-16 border-b-4 border-blue-600"></div>
               </div>
-              <p className="text-xl text-gray-600">Loading all products...</p>
-              <p className="text-sm text-gray-500 mt-2">
-                This may take a moment. We're loading all products for instant search.
-              </p>
+              <p className="text-xl text-gray-600">Loading products...</p>
             </div>
           ) : paginatedProducts.length > 0 ? (
             <>
@@ -471,7 +456,9 @@ function Products() {
                     </button>
 
                     {/* Page Numbers */}
-                    <div className="flex items-center gap-2">{renderPageNumbers()}</div>
+                    <div className="flex items-center gap-2">
+                      {renderPageNumbers()}
+                    </div>
 
                     {/* Next Button */}
                     <button
@@ -493,20 +480,29 @@ function Products() {
                     {searchTerm || selectedType !== "all" ? (
                       <>
                         Showing page{" "}
-                        <span className="font-semibold text-blue-600">{currentPage}</span> of{" "}
-                        <span className="font-semibold">{totalPages}</span> •{" "}
-                        <span className="font-semibold">{paginatedProducts.length}</span> of{" "}
-                        <span className="font-semibold">{displayProducts.length}</span>{" "}
+                        <span className="font-semibold text-blue-600">
+                          {currentPage}
+                        </span>{" "}
+                        of <span className="font-semibold">{totalPages}</span> •{" "}
+                        <span className="font-semibold">
+                          {paginatedProducts.length}
+                        </span>{" "}
+                        of <span className="font-semibold">{totalItems}</span>{" "}
                         filtered results
                       </>
                     ) : (
                       <>
                         Page{" "}
-                        <span className="font-semibold text-blue-600">{currentPage}</span> of{" "}
-                        <span className="font-semibold">{totalPages}</span> • Showing{" "}
-                        <span className="font-semibold">{paginatedProducts.length}</span> of{" "}
-                        <span className="font-semibold">{allProducts.length}</span> total
-                        products
+                        <span className="font-semibold text-blue-600">
+                          {currentPage}
+                        </span>{" "}
+                        of <span className="font-semibold">{totalPages}</span> •
+                        Showing{" "}
+                        <span className="font-semibold">
+                          {paginatedProducts.length}
+                        </span>{" "}
+                        of <span className="font-semibold">{totalItems}</span>{" "}
+                        total products
                       </>
                     )}
                   </div>
@@ -527,9 +523,10 @@ function Products() {
               <p className="text-gray-600 mb-6 max-w-md mx-auto">
                 {searchTerm ? (
                   <>
-                    No products match "<span className="font-semibold">{searchTerm}</span>".
+                    No products match "
+                    <span className="font-semibold">{searchTerm}</span>".
                     <br />
-                    We searched across all {allProducts.length} products.
+                    We searched across all {totalItems} products.
                   </>
                 ) : selectedType !== "all" ? (
                   "No products match your selected type."
