@@ -1710,7 +1710,222 @@
     "MG_VALUE": "150mg/mL",
     "MEDICINE_TYPE": "Injection"
   },
-  
+  {
+    "S_NO": 286,
+    "PRODUCT": "Dexamethasone Sodium Phosphate Injection USP",
+    "MG_VALUE": "4mg/mL",
+    "MEDICINE_TYPE": "Injection"
+  },
+  {
+    "S_NO": 287,
+    "PRODUCT": "Dexamethasone, Vitamin B1, B6, B12 & Lidocaine HCL Injection",
+    "MG_VALUE": "4mg+50mg+50mg+250mcg+30mg/3mL",
+    "MEDICINE_TYPE": "Injection"
+  },
+  {
+    "S_NO": 288,
+    "PRODUCT": "Dexmedetomidine Injection USP",
+    "MG_VALUE": "100mcg/mL",
+    "MEDICINE_TYPE": "Injection"
+  },
+  {
+    "S_NO": 289,
+    "PRODUCT": "Diazepam Injection USP",
+    "MG_VALUE": "5mg/mL",
+    "MEDICINE_TYPE": "Injection"
+  },
+  {
+    "S_NO": 290,
+    "PRODUCT": "Diclofenac Potassium, Cyanocobalamin & Betamethasone Sodium Phosphate Injection",
+    "MG_VALUE": "75mg+10mg+2mg/3mL",
+    "MEDICINE_TYPE": "Injection"
+  },
+  {
+    "S_NO": 291,
+    "PRODUCT": "Diclofenac Potassium, Cyanocobalamin & Prednisolone Sodium Phosphate Injection",
+    "MG_VALUE": "75mg+5mg+10mg/3mL",
+    "MEDICINE_TYPE": "Injection"
+  },
+  {
+    "S_NO": 292,
+    "PRODUCT": "Diclofenac Potassium, Thiamine Hydrochloride, Pyridoxine Hydrochloride, Cyanocobalamin & Lidocaine Hydrochloride Injection",
+    "MG_VALUE": "75mg+100mg+100mg+10mg+10mg/3mL",
+    "MEDICINE_TYPE": "Injection"
+  },
+  {
+    "S_NO": 293,
+    "PRODUCT": "Diclofenac Potassium, Cyanocobalamin & Cholecalciferol Injection",
+    "MG_VALUE": "75mg+5mg+1000IU/2mL",
+    "MEDICINE_TYPE": "Injection"
+  },
+  {
+    "S_NO": 294,
+    "PRODUCT": "Diclofenac Sodium & Lidocaine HCL Injection",
+    "MG_VALUE": "75mg+20mg/2mL",
+    "MEDICINE_TYPE": "Injection"
+  },
+  {
+    "S_NO": 295,
+    "PRODUCT": "Diclofenac Sodium Injection",
+    "MG_VALUE": "25mg/mL",
+    "MEDICINE_TYPE": "Injection"
+  },
+  {
+    "S_NO": 296,
+    "PRODUCT": "Diclofenac Sodium Injection",
+    "MG_VALUE": "75mg/mL",
+    "MEDICINE_TYPE": "Injection"
+  },
+  {
+    "S_NO": 297,
+    "PRODUCT": "Diclofenac Sodium, Hydroxocobalamin Acetate & Prednisolone Acetate Injection",
+    "MG_VALUE": "75mg+10.44mg+10.08mg/3mL",
+    "MEDICINE_TYPE": "Injection"
+  },
+  {
+    "S_NO": 298,
+    "PRODUCT": "Dicyclomine Hydrochloride Injection USP",
+    "MG_VALUE": "10mg/mL",
+    "MEDICINE_TYPE": "Injection"
+  },
+  {
+    "S_NO": 299,
+    "PRODUCT": "Drotaverine Injection",
+    "MG_VALUE": "20mg/mL",
+    "MEDICINE_TYPE": "Injection"
+  },
+  {
+    "S_NO": 300,
+    "PRODUCT": "Ergometrine Injection BP",
+    "MG_VALUE": "0.5mg/mL",
+    "MEDICINE_TYPE": "Injection"
+  },
+  {
+    "S_NO": 301,
+    "PRODUCT": "Etamsylate Injection",
+    "MG_VALUE": "125mg/mL",
+    "MEDICINE_TYPE": "Injection"
+  },
+  {
+    "S_NO": 302,
+    "PRODUCT": "Fentanyl Citrate Injection USP",
+    "MG_VALUE": "50mcg/mL",
+    "MEDICINE_TYPE": "Injection"
+  },
+  {
+    "S_NO": 303,
+    "PRODUCT": "Furosemide Injection BP",
+    "MG_VALUE": "20mg/2mL",
+    "MEDICINE_TYPE": "Injection"
+  },
+  {
+    "S_NO": 304,
+    "PRODUCT": "Gentamicin Injection BP",
+    "MG_VALUE": "10mg/mL",
+    "MEDICINE_TYPE": "Injection"
+  },
+  {
+    "S_NO": 305,
+    "PRODUCT": "Gentamicin Injection BP",
+    "MG_VALUE": "20mg/mL",
+    "MEDICINE_TYPE": "Injection"
+  },
+  {
+    "S_NO": 306,
+    "PRODUCT": "Gentamicin Injection BP",
+    "MG_VALUE": "40mg/mL",
+    "MEDICINE_TYPE": "Injection"
+  },
+  {
+    "S_NO": 307,
+    "PRODUCT": "Haloperidol Injection USP",
+    "MG_VALUE": "5mg/mL",
+    "MEDICINE_TYPE": "Injection"
+  },
+  {
+    "S_NO": 308,
+    "PRODUCT": "Heparin Injection BP",
+    "MG_VALUE": "1000IU/mL",
+    "MEDICINE_TYPE": "Injection"
+  },
+  {
+    "S_NO": 309,
+    "PRODUCT": "Heparin Injection BP",
+    "MG_VALUE": "5000IU/mL",
+    "MEDICINE_TYPE": "Injection"
+  },
+  {
+    "S_NO": 310,
+    "PRODUCT": "Hyoscine Butyl Bromide Injection BP",
+    "MG_VALUE": "20mg/mL",
+    "MEDICINE_TYPE": "Injection"
+  },
+  {
+    "S_NO": 311,
+    "PRODUCT": "Iron Sorbitex Injection USP",
+    "MG_VALUE": "50mg/mL",
+    "MEDICINE_TYPE": "Injection"
+  },
+  {
+    "S_NO": 312,
+    "PRODUCT": "Iron Sucrose Injection USP",
+    "MG_VALUE": "20mg/mL",
+    "MEDICINE_TYPE": "Injection"
+  },
+  {
+    "S_NO": 313,
+    "PRODUCT": "Ketorolac Tromethamine Injection USP",
+    "MG_VALUE": "30mg/mL",
+    "MEDICINE_TYPE": "Injection"
+  },
+  {
+    "S_NO": 314,
+    "PRODUCT": "Levetiracetam Injection USP",
+    "MG_VALUE": "100mg/mL",
+    "MEDICINE_TYPE": "Injection"
+  },
+  {
+    "S_NO": 315,
+    "PRODUCT": "Levocarnitine Injection USP",
+    "MG_VALUE": "200mg/mL",
+    "MEDICINE_TYPE": "Injection"
+  },
+  {
+    "S_NO": 316,
+    "PRODUCT": "Lidocaine and Adrenaline Injection BP",
+    "MG_VALUE": "20mg+1mg/mL",
+    "MEDICINE_TYPE": "Injection"
+  },
+  {
+    "S_NO": 317,
+    "PRODUCT": "Lidocaine Injection BP",
+    "MG_VALUE": "10mg/mL",
+    "MEDICINE_TYPE": "Injection"
+  },
+  {
+    "S_NO": 318,
+    "PRODUCT": "Lidocaine Injection BP",
+    "MG_VALUE": "20mg/mL",
+    "MEDICINE_TYPE": "Injection"
+  },
+  {
+    "S_NO": 319,
+    "PRODUCT": "Lincomycin Injection USP",
+    "MG_VALUE": "300mg/mL",
+    "MEDICINE_TYPE": "Injection"
+  },
+  {
+    "S_NO": 320,
+    "PRODUCT": "L-Ornithine-L-Aspartate Injection",
+    "MG_VALUE": "5gm/10mL",
+    "MEDICINE_TYPE": "Injection"
+  },
+  {
+    "S_NO": 321,
+    "PRODUCT": "Meloxicam, Cyanocobalamin & Betamethasone Sodium Phosphate Injection",
+    "MG_VALUE": "15mg+5mg+0.30mg/3mL",
+    "MEDICINE_TYPE": "Injection"
+  },
   {
     "S_NO": 322,
     "PRODUCT": "Methylcobalamin Injection",
@@ -1981,4 +2196,5 @@
     "MG_VALUE": "75mg/mL",
     "MEDICINE_TYPE": "Injection"
   }
+
 ]
