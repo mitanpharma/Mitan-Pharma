@@ -108,7 +108,7 @@ function Navbar() {
                 Mitan Pharma
               </span>
               <span className="text-sm text-blue-600 -mt-1">
-                Your Compliance, Our Mission
+                Your Vision, Our Expertise
               </span>
             </div>
           </Link>

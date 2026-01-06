@@ -92,7 +92,7 @@ function Footer() {
               </div>
             </div>
             <p className="text-gray-400 text-sm leading-relaxed">
-              Your Compliance, Our Mission
+              Your Vision, Our Expertise
             </p>
             <p className="text-gray-400 text-sm leading-relaxed">
               Leading pharmaceutical consultancy providing expert regulatory

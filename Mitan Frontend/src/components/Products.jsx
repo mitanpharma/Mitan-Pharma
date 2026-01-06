@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import {
   Package,
@@ -9,109 +9,79 @@ import {
   ChevronRight,
   X,
 } from "lucide-react";
-import axios from "axios";
+import medicinesData from "../medicines/medicinesData.json";
 
 function Products() {
   // State management
+  const [allProducts] = useState(medicinesData); // Load from JSON
   const [displayProducts, setDisplayProducts] = useState([]);
-  const [productCounts, setProductCounts] = useState({
-    all: 0,
-    tablet: 0,
-    capsule: 0,
-    syrup: 0,
-    injection: 0,
-    infusion: 0,
-  });
   const [selectedType, setSelectedType] = useState("all");
   const [searchTerm, setSearchTerm] = useState("");
-  const [debouncedSearch, setDebouncedSearch] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
-  const [totalItems, setTotalItems] = useState(0);
-  const [loading, setLoading] = useState(false);
-  const [initialLoading, setInitialLoading] = useState(true);
-  const [error, setError] = useState(null);
   const itemsPerPage = 50;
 
-  // Debounce search term
+  // Filter and paginate products
   useEffect(() => {
-    const timer = setTimeout(() => {
-      setDebouncedSearch(searchTerm);
-      setCurrentPage(1); // Reset to page 1 on new search
-    }, 500);
-    return () => clearTimeout(timer);
-  }, [searchTerm]);
+    let filtered = [...allProducts];
 
-  // Fetch product counts
-  const fetchCounts = useCallback(async () => {
-    try {
-      const params = new URLSearchParams();
-      if (debouncedSearch) params.append("search", debouncedSearch);
-
-      const response = await axios.get(
-        `${import.meta.env.VITE_API_URL}/api/medicines/counts?${params}`,
-        { withCredentials: true }
+    // Apply search filter
+    if (searchTerm.trim()) {
+      filtered = filtered.filter((product) =>
+        product.PRODUCT?.toLowerCase().includes(searchTerm.trim().toLowerCase())
       );
-
-      setProductCounts(
-        response.data?.counts || {
-          all: 0,
-          tablet: 0,
-          capsule: 0,
-          syrup: 0,
-          injection: 0,
-          infusion: 0,
-        }
-      );
-    } catch (error) {
-      console.error("Error fetching counts:", error);
     }
-  }, [debouncedSearch]);
 
-  // Fetch products with pagination
-  const fetchProducts = useCallback(async () => {
-    try {
-      setLoading(true);
-      setError(null);
-
-      const params = new URLSearchParams({
-        page: currentPage,
-        limit: itemsPerPage,
-      });
-
-      if (debouncedSearch) params.append("search", debouncedSearch);
-      if (selectedType !== "all") params.append("type", selectedType);
-
-      const response = await axios.get(
-        `${import.meta.env.VITE_API_URL}/api/medicines?${params}`,
-        { withCredentials: true }
+    // Apply type filter
+    if (selectedType !== "all") {
+      filtered = filtered.filter(
+        (product) =>
+          product.MEDICINE_TYPE?.toLowerCase() === selectedType.toLowerCase()
       );
-
-      setDisplayProducts(response.data?.data || []);
-      setTotalPages(response.data?.pagination?.totalPages || 1);
-      setTotalItems(response.data?.pagination?.totalItems || 0);
-    } catch (error) {
-      console.error("Error fetching medicines:", error);
-      setError("Failed to load medicines. Please try again later.");
-      setDisplayProducts([]);
-    } finally {
-      setLoading(false);
-      setInitialLoading(false);
     }
-  }, [currentPage, debouncedSearch, selectedType]);
 
-  // Fetch products when dependencies change
-  useEffect(() => {
-    fetchProducts();
-  }, [fetchProducts]);
+    // Calculate total pages
+    setTotalPages(Math.ceil(filtered.length / itemsPerPage));
 
-  // Fetch counts when search changes
-  useEffect(() => {
-    fetchCounts();
-  }, [fetchCounts]);
+    // Get paginated products
+    const startIndex = (currentPage - 1) * itemsPerPage;
+    const endIndex = startIndex + itemsPerPage;
+    setDisplayProducts(filtered.slice(startIndex, endIndex));
 
-  // Backend handles pagination, so we just use displayProducts directly
-  const paginatedProducts = displayProducts;
+    // Reset to page 1 if current page is out of range
+    if (
+      currentPage > Math.ceil(filtered.length / itemsPerPage) &&
+      filtered.length > 0
+    ) {
+      setCurrentPage(1);
+    }
+  }, [searchTerm, selectedType, currentPage, allProducts]);
+
+  // Calculate product counts
+  const getProductCounts = () => {
+    const products = searchTerm ? displayProducts : allProducts;
+
+    return {
+      all: allProducts.length,
+      tablet: allProducts.filter(
+        (p) => p.MEDICINE_TYPE?.toLowerCase() === "tablet"
+      ).length,
+      capsule: allProducts.filter(
+        (p) => p.MEDICINE_TYPE?.toLowerCase() === "capsule"
+      ).length,
+      syrup: allProducts.filter(
+        (p) => p.MEDICINE_TYPE?.toLowerCase() === "syrup"
+      ).length,
+      injection: allProducts.filter(
+        (p) => p.MEDICINE_TYPE?.toLowerCase() === "injection"
+      ).length,
+      infusion: allProducts.filter(
+        (p) => p.MEDICINE_TYPE?.toLowerCase() === "infusion"
+      ).length,
+    };
+  };
+
+  const productCounts = getProductCounts();
 
   // Handle page change
   const handlePageChange = (newPage) => {
@@ -262,24 +232,17 @@ function Products() {
                   <X className="w-5 h-5" />
                 </button>
               )}
-
-              {/* Loading indicator */}
-              {loading && (
-                <div className="absolute right-14 top-1/2 transform -translate-y-1/2">
-                  <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-blue-600"></div>
-                </div>
-              )}
             </div>
 
             {/* Search Info */}
-            {searchTerm && !initialLoading && (
+            {searchTerm && (
               <div className="text-center">
                 <p className="text-sm text-gray-600">
                   Found{" "}
                   <span className="font-semibold text-blue-600">
-                    {totalItems}
+                    {displayProducts.length}
                   </span>{" "}
-                  result{totalItems !== 1 ? "s" : ""} for "
+                  result{displayProducts.length !== 1 ? "s" : ""} for "
                   <span className="font-semibold">{searchTerm}</span>"
                 </p>
               </div>
@@ -305,7 +268,10 @@ function Products() {
                 ].map(({ key, label }) => (
                   <button
                     key={key}
-                    onClick={() => setSelectedType(key)}
+                    onClick={() => {
+                      setSelectedType(key);
+                      setCurrentPage(1);
+                    }}
                     className={`px-6 py-2.5 rounded-lg font-medium transition-all duration-300 border-2 ${
                       selectedType === key
                         ? "bg-blue-600 text-white border-blue-600 shadow-lg"
@@ -319,36 +285,8 @@ function Products() {
             </div>
           </div>
 
-          {/* Error Message */}
-          {error && (
-            <div className="bg-red-50 border-2 border-red-200 rounded-xl p-6 mb-8">
-              <div className="flex items-center gap-3">
-                <div className="w-12 h-12 bg-red-100 rounded-full flex items-center justify-center">
-                  <X className="w-6 h-6 text-red-600" />
-                </div>
-                <div>
-                  <h3 className="text-lg font-semibold text-red-900">Error</h3>
-                  <p className="text-red-700">{error}</p>
-                </div>
-              </div>
-              <button
-                onClick={fetchProducts}
-                className="mt-4 px-6 py-2 bg-red-600 text-white font-semibold rounded-lg hover:bg-red-700 transition-all duration-300"
-              >
-                Retry
-              </button>
-            </div>
-          )}
-
-          {/* Initial Loading State */}
-          {initialLoading ? (
-            <div className="bg-white rounded-2xl shadow-xl p-12 text-center border border-gray-100">
-              <div className="flex justify-center mb-4">
-                <div className="animate-spin rounded-full h-16 w-16 border-b-4 border-blue-600"></div>
-              </div>
-              <p className="text-xl text-gray-600">Loading products...</p>
-            </div>
-          ) : paginatedProducts.length > 0 ? (
+          {/* Products Display */}
+          {displayProducts.length > 0 ? (
             <>
               {/* Products Table */}
               <div className="bg-white rounded-2xl shadow-xl overflow-hidden border border-gray-100">
@@ -375,7 +313,7 @@ function Products() {
                       </tr>
                     </thead>
                     <tbody className="divide-y divide-gray-100">
-                      {paginatedProducts.map((product, index) => (
+                      {displayProducts.map((product, index) => (
                         <tr
                           key={product._id || `product-${index}`}
                           className="hover:bg-blue-50 transition-colors duration-200"
@@ -396,7 +334,7 @@ function Products() {
                           </td>
                           <td className="px-6 py-4 text-center">
                             <button className="px-6 py-2.5 bg-linear-to-r from-blue-600 to-indigo-600 text-white font-semibold rounded-lg hover:from-blue-700 hover:to-indigo-700 transform hover:scale-105 transition-all duration-300 shadow-md hover:shadow-lg">
-                              View Product
+                              Product Available
                             </button>
                           </td>
                         </tr>
@@ -407,7 +345,7 @@ function Products() {
 
                 {/* Mobile Card View */}
                 <div className="md:hidden divide-y divide-gray-100">
-                  {paginatedProducts.map((product, index) => (
+                  {displayProducts.map((product, index) => (
                     <div
                       key={product._id || `product-mobile-${index}`}
                       className="p-6 hover:bg-blue-50 transition-colors duration-200"
@@ -430,7 +368,7 @@ function Products() {
                         {product.MG_VALUE || "N/A"}
                       </p>
                       <button className="w-full px-6 py-2.5 bg-linear-to-r from-blue-600 to-indigo-600 text-white font-semibold rounded-lg hover:from-blue-700 hover:to-indigo-700 transform hover:scale-105 transition-all duration-300 shadow-md">
-                        View Product
+                         Product Available
                       </button>
                     </div>
                   ))}
@@ -477,34 +415,18 @@ function Products() {
 
                   {/* Page Info */}
                   <div className="mt-4 text-center text-sm text-gray-600">
-                    {searchTerm || selectedType !== "all" ? (
-                      <>
-                        Showing page{" "}
-                        <span className="font-semibold text-blue-600">
-                          {currentPage}
-                        </span>{" "}
-                        of <span className="font-semibold">{totalPages}</span> •{" "}
-                        <span className="font-semibold">
-                          {paginatedProducts.length}
-                        </span>{" "}
-                        of <span className="font-semibold">{totalItems}</span>{" "}
-                        filtered results
-                      </>
-                    ) : (
-                      <>
-                        Page{" "}
-                        <span className="font-semibold text-blue-600">
-                          {currentPage}
-                        </span>{" "}
-                        of <span className="font-semibold">{totalPages}</span> •
-                        Showing{" "}
-                        <span className="font-semibold">
-                          {paginatedProducts.length}
-                        </span>{" "}
-                        of <span className="font-semibold">{totalItems}</span>{" "}
-                        total products
-                      </>
-                    )}
+                    Page{" "}
+                    <span className="font-semibold text-blue-600">
+                      {currentPage}
+                    </span>{" "}
+                    of <span className="font-semibold">{totalPages}</span> •
+                    Showing{" "}
+                    <span className="font-semibold">
+                      {displayProducts.length}
+                    </span>{" "}
+                    of{" "}
+                    <span className="font-semibold">{allProducts.length}</span>{" "}
+                    total products
                   </div>
                 </div>
               )}
@@ -525,8 +447,6 @@ function Products() {
                   <>
                     No products match "
                     <span className="font-semibold">{searchTerm}</span>".
-                    <br />
-                    We searched across all {totalItems} products.
                   </>
                 ) : selectedType !== "all" ? (
                   "No products match your selected type."
