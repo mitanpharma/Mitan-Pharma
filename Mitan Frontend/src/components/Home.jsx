@@ -185,34 +185,10 @@ function Home() {
     },
     {
       quote:
-        "The regulatory dossier compilation was flawless. We achieved market approval in record time across multiple regions.",
-      name: "Dr. M. Johnson",
-      role: "Regulatory Affairs Director, MedTech Solutions",
-    },
-    {
-      quote:
-        "Their GMP compliance consulting helped us pass international audits with zero critical observations. Truly exceptional service.",
-      name: "Mr. K. Sharma",
-      role: "VP Quality Assurance, GenPharma Industries",
-    },
-    {
-      quote:
-        "The plant layout redesign and compliance guidance streamlined our operations significantly. Production efficiency increased by 30%.",
-      name: "Ms. L. Chen",
-      role: "Plant Manager, BioHealth Manufacturing",
-    },
-    {
-      quote:
         "Outstanding BA/BE study support. Their expertise in bioanalytical validation ensured our submission was scientifically robust.",
       name: "Dr. R. Verma",
       role: "Clinical Research Head, NovaCure Pharma",
-    },
-    {
-      quote:
-        "Professional, knowledgeable, and responsive. Their training programs elevated our team's understanding of regulatory requirements.",
-      name: "Ms. T. Anderson",
-      role: "Training Manager, HealthFirst Laboratories",
-    },
+    }
   ];
 
   return (
@@ -302,7 +278,7 @@ function Home() {
               <div className="absolute inset-0 bg-linear-to-tr from-purple-600 to-indigo-600 rounded-2xl transform rotate-3 opacity-10 pointer-events-none"></div>
               <div className="relative rounded-2xl overflow-hidden shadow-2xl transform hover:scale-[1.02] transition-all duration-500">
                 <img
-                  src="https://imgs.search.brave.com/7AMq0sRIYanC3P3jFvsIOawKLcxR4M7lS8yGiMyEcx4/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9lcnBz/b2Z0d2FyZWJsb2cu/Y29tL3dwLWNvbnRl/bnQvdXBsb2Fkcy9h/LXBpY3R1cmUtZm9y/LXF1YWxpdHktY29u/dHJvbC1pbi1waGFy/bWFjZXV0aWNhbC1p/bmR1c3RyeS5qcGc"
+                  src="https://plus.unsplash.com/premium_photo-1661776255948-7a76baa9d7b9?q=80&w=1172&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
                   alt="Medical Professional"
                   className="w-full h-64 md:h-96 object-cover"
                   loading="lazy"

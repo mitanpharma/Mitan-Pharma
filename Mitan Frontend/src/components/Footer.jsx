@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import logo1 from "../../public/items/logo1.png";
 import {
   Mail,
   Phone,
@@ -41,55 +42,22 @@ function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-8">
           {/* Company Info */}
           <div className="space-y-4">
-            <div className="flex items-center space-x-3">
-              <div className="w-10 h-10">
-                <svg viewBox="0 0 200 200" className="w-full h-full">
-                  <ellipse
-                    cx="60"
-                    cy="100"
-                    rx="25"
-                    ry="40"
-                    fill="#3b82f6"
-                    opacity="0.9"
-                  />
-                  <ellipse cx="60" cy="100" rx="25" ry="20" fill="#60a5fa" />
-                  <ellipse
-                    cx="140"
-                    cy="100"
-                    rx="25"
-                    ry="40"
-                    fill="#2563eb"
-                    opacity="0.9"
-                  />
-                  <ellipse cx="140" cy="100" rx="25" ry="20" fill="#3b82f6" />
-                  <rect x="85" y="85" width="30" height="30" fill="white" />
-                  <polygon points="100,70 75,90 125,90" fill="white" />
-                  <rect x="90" y="92" width="8" height="8" fill="#2563eb" />
-                  <rect x="102" y="92" width="8" height="8" fill="#2563eb" />
-                  <rect x="90" y="102" width="8" height="8" fill="#2563eb" />
-                  <rect x="102" y="102" width="8" height="8" fill="#2563eb" />
-                  <line
-                    x1="85"
-                    y1="100"
-                    x2="60"
-                    y2="100"
-                    stroke="#1e40af"
-                    strokeWidth="6"
-                  />
-                  <line
-                    x1="115"
-                    y1="100"
-                    x2="140"
-                    y2="100"
-                    stroke="#1e40af"
-                    strokeWidth="6"
-                  />
-                </svg>
+            <Link
+              to="/"
+              className="flex items-center space-x-3 group transition-transform duration-300 hover:scale-105"
+            >
+              <div className="relative w-12 h-12 shrink-0">
+                <img
+                  src={logo1}
+                  alt="Mitan Pharma Logo"
+                  className="w-full h-full object-contain"
+                />
               </div>
               <div>
                 <h3 className="text-xl font-bold text-white">Mitan Pharma</h3>
               </div>
-            </div>
+            </Link>
+
             <p className="text-gray-400 text-sm leading-relaxed">
               Your Vision, Our Expertise
             </p>

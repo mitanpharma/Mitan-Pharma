@@ -9,7 +9,11 @@ import Layout from "./components/Layout";
 import Home from "./components/Home";
 import About from "./components/About";
 import Contact from "./components/Contact";
+import AuthorityLinks from "./components/Authoritylinks";
 import Services from "./components/Services";
+import PharmacovigilanceServices from "./components/Pharmacovigilanceservices";
+import LicensingServices from "./components/LicensingServices";
+import ProjectAndOutsourcingServices from "./components/ProjectAndOutsourcingServices";
 import Team from "./components/Team";
 import FAQ from "./components/FAQ";
 
@@ -65,10 +69,20 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/about" element={<About />} />
           <Route path="/services" element={<Services />} />
+          <Route
+            path="/pharmacovigilance"
+            element={<PharmacovigilanceServices />}
+          />
+          <Route path="/licensing-services" element={<LicensingServices />} />
+          <Route
+            path="/project-outsourcing-services"
+            element={<ProjectAndOutsourcingServices />}
+          />
           <Route path="/products" element={<Products />} />
           <Route path="/team" element={<Team />} />
           <Route path="/faq" element={<FAQ />} />
           <Route path="/contact" element={<Contact />} />
+          <Route path="/authority-links" element={<AuthorityLinks />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/login" element={<Login />} />
 

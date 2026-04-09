@@ -78,35 +78,7 @@ function TeamPage() {
       linkedin: "#",
       email: "sneha@mitanpharma.com",
       category: "training",
-    },
-    {
-      name: "Dr. Amit Singh",
-      role: "Regulatory Affairs Manager",
-      image:
-        "https://images.unsplash.com/photo-1622253692010-333f2da6031d?w=800&auto=format&fit=crop",
-      experience: "14+ years Experience",
-      specialization: "BA/BE Studies & Clinical Documentation",
-      description:
-        "Specialized in bioequivalence studies and clinical regulatory submissions.",
-      expertise: ["BA/BE Studies", "Clinical Documentation", "ANOVA Analysis"],
-      linkedin: "#",
-      email: "amit@mitanpharma.com",
-      category: "regulatory",
-    },
-    {
-      name: "Ms. Kavita Desai",
-      role: "Documentation Specialist",
-      image:
-        "https://images.unsplash.com/photo-1580489944761-15a19d654956?w=800&auto=format&fit=crop",
-      experience: "10+ years Experience",
-      specialization: "Technical Writing & Dossier Management",
-      description:
-        "Expert in pharmaceutical documentation and regulatory dossier compilation.",
-      expertise: ["Module Writing", "Document Control", "Regulatory Writing"],
-      linkedin: "#",
-      email: "kavita@mitanpharma.com",
-      category: "documentation",
-    },
+    }
   ];
 
   const expertise = [

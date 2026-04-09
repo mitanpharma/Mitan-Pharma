@@ -1,14 +1,21 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Menu, X, ChevronDown } from "lucide-react";
+import logo1 from "../../public/items/logo1.png";
 
 function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isAboutOpen, setIsAboutOpen] = useState(false);
+  const [isServicesOpen, setIsServicesOpen] = useState(false);
+  const [isContactOpen, setIsContactOpen] = useState(false);
   const [isMobileAboutOpen, setIsMobileAboutOpen] = useState(false);
+  const [isMobileServicesOpen, setIsMobileServicesOpen] = useState(false);
+  const [isMobileContactOpen, setIsMobileContactOpen] = useState(false);
   const location = useLocation();
   const aboutDropdownRef = useRef(null);
+  const servicesDropdownRef = useRef(null);
+  const contactDropdownRef = useRef(null);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -18,11 +25,25 @@ function Navbar() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // Close dropdown when clicking outside
   useEffect(() => {
     const handleClickOutside = (event) => {
-      if (aboutDropdownRef.current && !aboutDropdownRef.current.contains(event.target)) {
+      if (
+        aboutDropdownRef.current &&
+        !aboutDropdownRef.current.contains(event.target)
+      ) {
         setIsAboutOpen(false);
+      }
+      if (
+        servicesDropdownRef.current &&
+        !servicesDropdownRef.current.contains(event.target)
+      ) {
+        setIsServicesOpen(false);
+      }
+      if (
+        contactDropdownRef.current &&
+        !contactDropdownRef.current.contains(event.target)
+      ) {
+        setIsContactOpen(false);
       }
     };
     document.addEventListener("mousedown", handleClickOutside);
@@ -32,10 +53,25 @@ function Navbar() {
   const navItems = [
     { name: "Home", path: "/" },
     { name: "Team", path: "/team" },
-    { name: "Services", path: "/services" },
+    {
+      name: "Services",
+      path: "/services",
+      hasDropdown: true,
+      dropdownType: "services",
+    },
     { name: "Products", path: "/products" },
-    { name: "About", path: "/about", hasDropdown: true, dropdownType: "about" },
-    { name: "Contact us", path: "/contact" },
+    {
+      name: "About",
+      path: "/about",
+      hasDropdown: true,
+      dropdownType: "about",
+    },
+    {
+      name: "Contact",
+      path: "/contact",
+      hasDropdown: true,
+      dropdownType: "contact",
+    },
   ];
 
   const aboutDropdownItems = [
@@ -43,7 +79,102 @@ function Navbar() {
     { name: "FAQ", path: "/FAQ" },
   ];
 
+  const servicesDropdownItems = [
+    { name: "Core Services", path: "/services" },
+    { name: "Pharmacovigilance Services", path: "/pharmacovigilance" },
+    { name: "Licensing Services", path: "/licensing-services" },
+    {
+      name: "Project & Outsourcing Services",
+      path: "/project-outsourcing-services",
+    },
+  ];
+
+  const contactDropdownItems = [
+    { name: "Contact Us", path: "/contact" },
+    { name: "Authorities & Regulatory Contacts", path: "/authority-links" },
+  ];
+
   const isActive = (path) => location.pathname === path;
+
+  const isServicesActive = [
+    "/services",
+    "/pharmacovigilance",
+    "/licensing-services",
+    "/project-outsourcing-services",
+  ].includes(location.pathname);
+
+  const isAboutActive =
+    location.pathname === "/about" || location.pathname === "/FAQ";
+
+  const isContactActive =
+    location.pathname === "/contact" ||
+    location.pathname === "/authority-links";
+
+  // Helper to get the open state for a dropdown type
+  const isDropdownOpen = (type) => {
+    if (type === "about") return isAboutOpen;
+    if (type === "services") return isServicesOpen;
+    if (type === "contact") return isContactOpen;
+    return false;
+  };
+
+  const isMobileDropdownOpen = (type) => {
+    if (type === "about") return isMobileAboutOpen;
+    if (type === "services") return isMobileServicesOpen;
+    if (type === "contact") return isMobileContactOpen;
+    return false;
+  };
+
+  const isNavItemActive = (item) => {
+    if (item.dropdownType === "about") return isAboutActive;
+    if (item.dropdownType === "services") return isServicesActive;
+    if (item.dropdownType === "contact") return isContactActive;
+    return false;
+  };
+
+  const getDropdownItems = (type) => {
+    if (type === "about") return aboutDropdownItems;
+    if (type === "services") return servicesDropdownItems;
+    if (type === "contact") return contactDropdownItems;
+    return [];
+  };
+
+  const getDropdownRef = (type) => {
+    if (type === "about") return aboutDropdownRef;
+    if (type === "services") return servicesDropdownRef;
+    if (type === "contact") return contactDropdownRef;
+    return null;
+  };
+
+  const handleMouseEnter = (type) => {
+    if (type === "about") setIsAboutOpen(true);
+    if (type === "services") setIsServicesOpen(true);
+    if (type === "contact") setIsContactOpen(true);
+  };
+
+  const handleMouseLeave = (type) => {
+    if (type === "about") setIsAboutOpen(false);
+    if (type === "services") setIsServicesOpen(false);
+    if (type === "contact") setIsContactOpen(false);
+  };
+
+  const handleToggle = (type) => {
+    if (type === "about") setIsAboutOpen((prev) => !prev);
+    if (type === "services") setIsServicesOpen((prev) => !prev);
+    if (type === "contact") setIsContactOpen((prev) => !prev);
+  };
+
+  const handleMobileToggle = (type) => {
+    if (type === "about") setIsMobileAboutOpen((prev) => !prev);
+    if (type === "services") setIsMobileServicesOpen((prev) => !prev);
+    if (type === "contact") setIsMobileContactOpen((prev) => !prev);
+  };
+
+  const getDropdownWidth = (type) => {
+    if (type === "services") return "w-64";
+    if (type === "contact") return "w-60";
+    return "w-48";
+  };
 
   return (
     <nav
@@ -58,50 +189,12 @@ function Navbar() {
             to="/"
             className="flex items-center space-x-3 group transition-transform duration-300 hover:scale-105"
           >
-            <div className="relative w-12 h-15 shrink-0">
-              <svg viewBox="0 0 200 200" className="w-full h-full">
-                {/* Pills */}
-                <ellipse
-                  cx="60"
-                  cy="100"
-                  rx="25"
-                  ry="40"
-                  fill="#2563eb"
-                  opacity="0.9"
-                />
-                <ellipse cx="60" cy="100" rx="25" ry="20" fill="#60a5fa" />
-                <ellipse
-                  cx="140"
-                  cy="100"
-                  rx="25"
-                  ry="40"
-                  fill="#1e40af"
-                  opacity="0.9"
-                />
-                <ellipse cx="140" cy="100" rx="25" ry="20" fill="#3b82f6" />
-                <rect x="85" y="85" width="30" height="30" fill="white" />
-                <polygon points="100,70 75,90 125,90" fill="white" />
-                <rect x="90" y="92" width="8" height="8" fill="#2563eb" />
-                <rect x="102" y="92" width="8" height="8" fill="#2563eb" />
-                <rect x="90" y="102" width="8" height="8" fill="#2563eb" />
-                <rect x="102" y="102" width="8" height="8" fill="#2563eb" />
-                <line
-                  x1="85"
-                  y1="100"
-                  x2="60"
-                  y2="100"
-                  stroke="#1e40af"
-                  strokeWidth="6"
-                />
-                <line
-                  x1="115"
-                  y1="100"
-                  x2="140"
-                  y2="100"
-                  stroke="#1e40af"
-                  strokeWidth="6"
-                />
-              </svg>
+            <div className="relative w-12 h-12 shrink-0">
+              <img
+                src={logo1}
+                alt="Mitan Pharma Logo"
+                className="w-full h-full object-contain"
+              />
             </div>
             <div className="flex flex-col">
               <span className="text-2xl font-bold text-[#1e40af] tracking-tight leading-tight">
@@ -116,27 +209,20 @@ function Navbar() {
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-1">
             {navItems.map((item) => (
-              <div 
-                key={item.path} 
-                className="relative" 
-                ref={item.dropdownType === "about" ? aboutDropdownRef : null}
+              <div
+                key={item.path}
+                className="relative"
+                ref={
+                  item.hasDropdown ? getDropdownRef(item.dropdownType) : null
+                }
               >
                 {item.hasDropdown ? (
                   <div>
                     <button
-                      onMouseEnter={() => {
-                        if (item.dropdownType === "about") {
-                          setIsAboutOpen(true);
-                        }
-                      }}
-                      onClick={() => {
-                        if (item.dropdownType === "about") {
-                          setIsAboutOpen(!isAboutOpen);
-                        }
-                      }}
+                      onMouseEnter={() => handleMouseEnter(item.dropdownType)}
+                      onClick={() => handleToggle(item.dropdownType)}
                       className={`relative px-4 py-2 text-sm font-medium transition-all duration-300 rounded-lg group flex items-center gap-1 ${
-                        isActive(item.path) || 
-                        (item.dropdownType === "about" && location.pathname === "/FAQ")
+                        isNavItemActive(item)
                           ? "text-blue-600"
                           : "text-gray-700 hover:text-blue-600"
                       }`}
@@ -144,41 +230,42 @@ function Navbar() {
                       {item.name}
                       <ChevronDown
                         className={`w-4 h-4 transition-transform duration-300 ${
-                          (item.dropdownType === "about" && isAboutOpen)
-                            ? "rotate-180" 
-                            : ""
+                          isDropdownOpen(item.dropdownType) ? "rotate-180" : ""
                         }`}
                       />
                       <span
                         className={`absolute bottom-1 left-4 right-4 h-0.5 bg-blue-600 transition-all duration-300 ${
-                          isActive(item.path) || 
-                          (item.dropdownType === "about" && location.pathname === "/FAQ")
+                          isNavItemActive(item)
                             ? "opacity-100 scale-x-100"
                             : "opacity-0 scale-x-0 group-hover:opacity-100 group-hover:scale-x-100"
                         }`}
                       />
                     </button>
 
-                    {/* About Dropdown Menu */}
-                    {item.dropdownType === "about" && isAboutOpen && (
+                    {/* Dropdown Menu */}
+                    {isDropdownOpen(item.dropdownType) && (
                       <div
-                        onMouseLeave={() => setIsAboutOpen(false)}
-                        className="absolute top-full left-0 mt-2 w-48 bg-white rounded-lg shadow-xl border border-gray-100 py-2 animate-fadeIn"
+                        onMouseLeave={() => handleMouseLeave(item.dropdownType)}
+                        className={`absolute top-full left-0 mt-2 ${getDropdownWidth(item.dropdownType)} bg-white rounded-lg shadow-xl border border-gray-100 py-2 animate-fadeIn`}
                       >
-                        {aboutDropdownItems.map((dropdownItem) => (
-                          <Link
-                            key={dropdownItem.path}
-                            to={dropdownItem.path}
-                            onClick={() => setIsAboutOpen(false)}
-                            className={`block px-4 py-2.5 text-sm font-medium transition-all duration-300 ${
-                              isActive(dropdownItem.path)
-                                ? "bg-blue-50 text-blue-600"
-                                : "text-gray-700 hover:bg-blue-50 hover:text-blue-600"
-                            }`}
-                          >
-                            {dropdownItem.name}
-                          </Link>
-                        ))}
+                        {getDropdownItems(item.dropdownType).map(
+                          (dropdownItem) => (
+                            <Link
+                              key={dropdownItem.path}
+                              to={dropdownItem.path}
+                              onClick={() =>
+                                handleMouseLeave(item.dropdownType)
+                              }
+                              className={`block px-4 py-2.5 text-sm font-medium transition-all duration-300 ${
+                                isActive(dropdownItem.path)
+                                  ? "bg-blue-50 text-blue-600"
+                                  : "text-gray-700 hover:bg-blue-50 hover:text-blue-600"
+                              }`}
+                            >
+                              {dropdownItem.name}
+                            </Link>
+                          ),
+                        )}
                       </div>
                     )}
                   </div>
@@ -205,7 +292,7 @@ function Navbar() {
             ))}
           </div>
 
-          {/* Contact Us Button - Desktop */}
+          {/* Buttons - Desktop */}
           <div className="hidden md:flex items-center space-x-2">
             <Link
               to="/signup"
@@ -217,7 +304,7 @@ function Navbar() {
               to="/login"
               className="inline-flex items-center px-6 py-2.5 bg-red-600 text-white text-sm font-medium rounded-full shadow-lg hover:bg-red-700 hover:shadow-xl transform hover:scale-105 transition-all duration-300"
             >
-              Admin Login
+              Login
             </Link>
           </div>
 
@@ -244,14 +331,9 @@ function Navbar() {
                   {item.hasDropdown ? (
                     <div>
                       <button
-                        onClick={() => {
-                          if (item.dropdownType === "about") {
-                            setIsMobileAboutOpen(!isMobileAboutOpen);
-                          }
-                        }}
+                        onClick={() => handleMobileToggle(item.dropdownType)}
                         className={`w-full flex items-center justify-between px-4 py-3 text-sm font-medium rounded-lg transition-all duration-300 ${
-                          isActive(item.path) || 
-                          (item.dropdownType === "about" && location.pathname === "/FAQ")
+                          isNavItemActive(item)
                             ? "bg-blue-50 text-blue-600"
                             : "text-gray-700 hover:bg-blue-50 hover:text-blue-600"
                         }`}
@@ -259,33 +341,34 @@ function Navbar() {
                         {item.name}
                         <ChevronDown
                           className={`w-4 h-4 transition-transform duration-300 ${
-                            (item.dropdownType === "about" && isMobileAboutOpen)
-                              ? "rotate-180" 
+                            isMobileDropdownOpen(item.dropdownType)
+                              ? "rotate-180"
                               : ""
                           }`}
                         />
                       </button>
 
-                      {/* About Dropdown - Mobile */}
-                      {item.dropdownType === "about" && isMobileAboutOpen && (
+                      {isMobileDropdownOpen(item.dropdownType) && (
                         <div className="ml-4 mt-2 space-y-2">
-                          {aboutDropdownItems.map((dropdownItem) => (
-                            <Link
-                              key={dropdownItem.path}
-                              to={dropdownItem.path}
-                              onClick={() => {
-                                setIsMobileMenuOpen(false);
-                                setIsMobileAboutOpen(false);
-                              }}
-                              className={`block px-4 py-2.5 text-sm font-medium rounded-lg transition-all duration-300 ${
-                                isActive(dropdownItem.path)
-                                  ? "bg-blue-100 text-blue-600"
-                                  : "text-gray-600 hover:bg-blue-50 hover:text-blue-600"
-                              }`}
-                            >
-                              {dropdownItem.name}
-                            </Link>
-                          ))}
+                          {getDropdownItems(item.dropdownType).map(
+                            (dropdownItem) => (
+                              <Link
+                                key={dropdownItem.path}
+                                to={dropdownItem.path}
+                                onClick={() => {
+                                  setIsMobileMenuOpen(false);
+                                  handleMobileToggle(item.dropdownType);
+                                }}
+                                className={`block px-4 py-2.5 text-sm font-medium rounded-lg transition-all duration-300 ${
+                                  isActive(dropdownItem.path)
+                                    ? "bg-blue-100 text-blue-600"
+                                    : "text-gray-600 hover:bg-blue-50 hover:text-blue-600"
+                                }`}
+                              >
+                                {dropdownItem.name}
+                              </Link>
+                            ),
+                          )}
                         </div>
                       )}
                     </div>
@@ -317,7 +400,7 @@ function Navbar() {
                   onClick={() => setIsMobileMenuOpen(false)}
                   className="block w-full px-4 py-2.5 bg-red-600 text-white text-sm font-medium rounded-full text-center hover:bg-red-700 transition-all duration-300 shadow-md"
                 >
-                  Admin Login
+                  Login
                 </Link>
               </div>
             </div>
