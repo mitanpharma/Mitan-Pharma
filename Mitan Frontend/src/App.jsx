@@ -12,8 +12,8 @@ import Contact from "./components/Contact";
 import AuthorityLinks from "./components/Authoritylinks";
 import Services from "./components/Services";
 import PharmacovigilanceServices from "./components/Pharmacovigilanceservices";
-import LicensingServices from "./components/LicensingServices";
-import ProjectAndOutsourcingServices from "./components/ProjectAndOutsourcingServices";
+import LicensingServices from "./components/Licensingservices";
+import ProjectAndOutsourcingServices from "./components/Projectandoutsourcingservices";
 import Team from "./components/Team";
 import FAQ from "./components/FAQ";
 
